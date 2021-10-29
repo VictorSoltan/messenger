@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
-import {
-  useFonts,
-  Poppins_400Regular,
-} from "@expo-google-fonts/dev";
+import AppLoading from 'expo-app-loading';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { useFonts, Poppins_400Regular} from '@expo-google-fonts/poppins';
+import Contact from '../assets/contact.svg'
+import Green from '../assets/green.svg'
 
 export default function ChatsList({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -21,6 +21,9 @@ export default function ChatsList({ navigation }) {
     { name: '***ShaMsiDDin***', messagePreview: 'That`s better...', time: '9:09', notAnswered: '', sound: true, groupChat: false }
   ])
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
   return(
     <View style={styles.chats}>
       <View style={styles.search}>
@@ -30,21 +33,21 @@ export default function ChatsList({ navigation }) {
           value={search}
         />     
         <View style={styles.contact}>
-          <Image style={{width: 23, height: 23}} source={require("../assets/contact.svg")} />
+          <Contact style={{width: 23, height: 23}}/>
         </View>
       </View>
       <FlatList style={{width: '100%'}} data={chatDivs} renderItem={({item, index}) => (
         <TouchableOpacity key={index} style={[styles.chat, (index+1)%3===0 ? {backgroundColor: '#E9FFE8'} : index%3===0 ? {backgroundColor: '#E8F4FF'} : {backgroundColor: '#FFFFE8'}]} onPress={() => navigation.navigate('Chat', item)}>
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '98%'}}>
             <View>
-              <Text style={{fontWeight: 500, fontSize: 16, color: '#222222'}}>{item.name}</Text>
+              <Text style={{fontWeight: '500', fontSize: 16, color: '#222222'}}>{item.name}</Text>
               <Text style={{color: '#8D8E90', marginTop: '3%'}}>
                 {!item.groupChat ? item.messagePreview
                 : null}
               <Text style={{color: '#70AAEA', fontSize: 14}}>typing...</Text></Text>
             </View>
             <View style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 13, color: '#95999A'}}><Image style={{width: 14, height: 10}} source={require("../assets/green.svg")}/> {item.time}</Text>
+              <Text style={{fontSize: 13, color: '#95999A'}}><Green style={{width: 14, height: 10}}/> {item.time}</Text>
               {item.notAnswered !== '' ? 
                 <Text style={styles.notAnswered}>2</Text>
               : null }
@@ -60,7 +63,7 @@ export default function ChatsList({ navigation }) {
             <Text style={styles.buttonText}>Home</Text>
       </TouchableOpacity>             
     </View>    
-  )
+  )}
 }
 
 const styles = StyleSheet.create({
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '100vh',
+    flex: 1
   },
   chat: {
     display: 'flex',
@@ -80,7 +83,6 @@ const styles = StyleSheet.create({
   },
   chatLine: {
     position: 'absolute',
-    margin: '0 auto',
     bottom: 1,
     height: 1,
     width: '80%',
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
   chatMemb: {
     position: 'absolute',
     top: '71%',
-    fontWeight: 500,
+    fontWeight: '500',
     fontSize: 16,
     color: '#8A8A8A'
   },
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     backgroundColor: '#112B66',
-    borderRadius: '190px',
+    borderRadius: 190,
     marginTop: '22%',
     padding: '2%',
     paddingTop: '6%',
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
   },  
   contact: {
     backgroundColor: '#112B66',
-    borderRadius: '190px',
+    borderRadius: 190,
     marginLeft: '-2%',
     padding: '3%',
   },
@@ -134,13 +136,13 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     padding: '3.2%',
     width: '84%',
-    borderRadius: '100px',
+    borderRadius: 100,
     alignItems: 'center'
   },
   buttonText: {
     fontFamily: 'Poppins_400Regular',
     fontWeight: '500',
-    fontSize: '20px',
+    fontSize: 20,
     color: 'white'
   }
 })

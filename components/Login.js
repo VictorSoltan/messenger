@@ -1,15 +1,13 @@
 import React from 'react';
+import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
-import {
-  useFonts,
-  Poppins_400Regular,
-} from "@expo-google-fonts/dev";
+import { useFonts, Poppins_400Regular} from '@expo-google-fonts/poppins';
+import Eye from  '../assets/fa-solid_eye.svg'
 
 export default function Login({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular
   });
-
   const loadScene = () => {
     navigation.navigate('Welcome')
   }
@@ -17,7 +15,9 @@ export default function Login({ navigation }) {
   let [mail, changeMail] = React.useState("E-Mail");
   let [password, changePass] = React.useState("Password");
 
-
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
   return (
     <View style={styles.login}>
       <View style={styles.loginContainer}>
@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
             onChangeText={changePass}
             value={password}
           />
-          <Image style={{position: 'absolute', right: '12%', width: '22px', height: '16px'}} source={require("../assets/fa-solid_eye.svg")} />
+          <Eye style={{position: 'absolute', right: '12%', width: '22px', height: '16px'}} />
         </View>
         <View style={{marginTop: '8.4%', width: '100%', alignItems: 'center'}}>
           <TouchableOpacity style={styles.button} onPress={loadScene}>
@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
         </View>
       </View>
     </View>
-  );
+  )}
 }
   
 const styles = StyleSheet.create({
@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    height: '100vh',
+    flex:1
   },
   loginContainer: {
     display: 'flex',
     alignItems: 'center',
   },
   loginLogo: {
-    fontSize: '20px',
+    fontSize: 20,
     fontWeight: '700',
     marginBottom: '7%'
   },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     padding: '4%',
     paddingLeft: '5%',
     borderColor: '#E8E8E8',
-    borderRadius: '100px',
+    borderRadius: 100,
     borderWidth: 1,
     backgroundColor: '#fff',
     color: '#8A8A8A',
@@ -87,13 +87,13 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     padding: '3.2%',
     width: '84%',
-    borderRadius: '100px',
+    borderRadius: 100,
     alignItems: 'center'
   },
   buttonText: {
     fontFamily: 'Poppins_400Regular',
     fontWeight: '500',
-    fontSize: '20px',
+    fontSize: 20,
     color: 'white'
   }
 })

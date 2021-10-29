@@ -1,9 +1,7 @@
 import React from 'react';
+import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
-import {
-  useFonts,
-  Poppins_400Regular,
-} from "@expo-google-fonts/dev";
+import { useFonts, Poppins_400Regular} from '@expo-google-fonts/poppins';
 
 export default function Welcome({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -16,13 +14,9 @@ export default function Welcome({ navigation }) {
     {value: 'DataBase', link: null}, 
     {value: 'Add Staff / Mrg', link: null}
   ]
-  // const loadScene = (e) => {
-  //   console.log(e)
-  //   if(e !== null){
-      
-  //   }
-  // }
-
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
   return(
     <View style={styles.wel}>
       <View style={styles.welContainer}>
@@ -34,7 +28,7 @@ export default function Welcome({ navigation }) {
         )} />
       </View>
     </View>
-  )
+  )}
 }
 
 const styles = StyleSheet.create({
@@ -42,7 +36,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    height: '100vh',
+    flex:1,
     fontFamily: 'Poppins_400Regular'
   },
   welContainer: {
@@ -50,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welLogo: {
-    fontSize: '26px',
+    fontSize: 26,
     fontWeight: '700',
     marginBottom: '7%'
   },
@@ -59,13 +53,13 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     padding: '3.2%',
     width: '100%',
-    borderRadius: '100px',
+    borderRadius: 100,
     alignItems: 'center'
   },
   buttonText: {
     fontFamily: 'Poppins_400Regular',
     fontWeight: '700',
-    fontSize: '20px',
+    fontSize: 20,
     color: 'white'
   }  
 })

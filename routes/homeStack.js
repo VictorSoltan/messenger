@@ -7,14 +7,6 @@ import Welcome from "../components/Welcome";
 import ChatsList from "../components/ChatsList";
 import Chat from "../components/Chat";
 
-// const screens = {
-//     Login: {
-//         screen: Login
-//     },
-//     Welcome: {
-//         screen: Welcome
-//     }
-// }
 
 const Stack = createStackNavigator()
 
@@ -30,7 +22,7 @@ export default function Navigate(){
                 name="Welcome"
                 component={Welcome}
                 options={{title: 'Welcome'}}
-            />          
+            />
             <Stack.Screen 
                 name="ChatsList"
                 component={ChatsList}
