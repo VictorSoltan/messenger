@@ -6,13 +6,17 @@ import Login from "../components/Login";
 import Welcome from "../components/Welcome";
 import ChatsList from "../components/ChatsList";
 import Chat from "../components/Chat";
+import Broadcasts from "../components/Broadcasts";
+import DataBase from "../components/DataBase";
 
 
 const Stack = createStackNavigator()
 
 export default function Navigate(){
  return <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator  screenOptions={{
+            headerShown: false
+        }}>
             <Stack.Screen 
                 name="Login"
                 component={Login}
@@ -33,6 +37,16 @@ export default function Navigate(){
                 component={Chat}
                 options={{title: 'Chat'}}
             />                  
+            {/* <Stack.Screen 
+                name="Broadcasts"
+                component={Broadcasts}
+                options={{title: 'Broadcasts'}}
+            />         */}
+            <Stack.Screen 
+                name="DataBase"
+                component={DataBase}
+                options={{title: 'DataBase'}}
+            />                                
         </Stack.Navigator>
     </NavigationContainer>
 }

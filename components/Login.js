@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { useFonts, Poppins_400Regular} from '@expo-google-fonts/poppins';
 import Eye from  '../assets/fa-solid_eye.svg'
+import HiddenEye from  '../assets/hiddenEye.svg'
 
 export default function Login({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -12,40 +13,56 @@ export default function Login({ navigation }) {
     navigation.navigate('Welcome')
   }
 
-  let [mail, changeMail] = React.useState("E-Mail");
-  let [password, changePass] = React.useState("Password");
+  let [mail, changeMail] = useState("");
+  let [password, changePass] = useState("");
+  let [passHide, setPassHide] = useState(true);
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-  return (
-    <View style={styles.login}>
-      <View style={styles.loginContainer}>
-        <Text style={styles.loginLogo}>Login</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={changeMail}
-          value={mail}
-        />
-        <View style={styles.searchSection}>
+    return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.login}>
+        <View style={styles.loginContainer}>
+          <Text style={styles.loginLogo}>Login</Text>
           <TextInput
             style={styles.input}
-            onChangeText={changePass}
-            value={password}
+            onChangeText={changeMail}
+            value={mail}
+            placeholder={'E-Mail'}
           />
-          <Eye style={{position: 'absolute', right: '12%', width: '22px', height: '16px'}} />
-        </View>
-        <View style={{marginTop: '8.4%', width: '100%', alignItems: 'center'}}>
-          <TouchableOpacity style={styles.button} onPress={loadScene}>
-                <Text style={styles.buttonText}>Enter</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} >
-                <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>            
+          <View style={styles.searchSection}>
+            <TextInput
+              style={styles.input}
+              onChangeText={changePass}
+              value={password}
+              secureTextEntry={passHide}
+              placeholder={'Password'}
+            />
+            <TouchableOpacity style={{position: 'absolute', right: '12%'}} onPress={() => setPassHide(!passHide)}>
+              {passHide ? 
+                // <Image style={{width: '22px', height: '16px'}} source={Eye} />
+                <Eye style={{width: '22px', height: '16px'}} /> 
+              
+                :
+                <HiddenEye style={{width: '22px', height: '16px'}} /> 
+              // <Image style={{width: '22px', height: '16px'}} source={HiddenEye} />
+              }
+            </TouchableOpacity>
+          </View>
+          <View style={{marginTop: '8.4%', width: '100%', alignItems: 'center'}}>
+            <TouchableOpacity style={styles.button} onPress={loadScene}>
+              <Text style={styles.buttonText}>Enter</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} >
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>            
+          </View>
         </View>
       </View>
-    </View>
-  )}
+      </TouchableWithoutFeedback>
+    )
+  }
 }
   
 const styles = StyleSheet.create({

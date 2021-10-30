@@ -11,7 +11,7 @@ export default function Welcome({ navigation }) {
   let buttonsData = [
     {value: 'Chat', link: 'ChatsList'}, 
     {value: 'Check / Fill Calendar', link: null }, 
-    {value: 'DataBase', link: null}, 
+    {value: 'DataBase', link: 'DataBase'}, 
     {value: 'Add Staff / Mrg', link: null}
   ]
   if (!fontsLoaded) {
