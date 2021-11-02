@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { connect } from 'react-redux'
 
 import Login from "../components/Login";
 import Welcome from "../components/Welcome";
@@ -17,7 +16,6 @@ import Registration from "../components/Registration";
 import RegistrationStuff from "../components/RegistrationStuff";
 import AddBooking from "../components/AddBooking";
 import AllDateEvents from "../components/AllDateEvents";
-import Avaliable from "../components/Avaliable";
 
 const Stack = createStackNavigator()
 
@@ -30,17 +28,17 @@ export default function Navigate(){
                 name="Login"
                 component={Login}
                 options={{title: 'Login'}}
-            /> */}
+            />*/}
             {/* <Stack.Screen 
                 name="Welcome"
                 component={Welcome}
                 options={{title: 'Welcome'}}
-            />    */}
-            {/* <Stack.Screen 
+            /> 
+            <Stack.Screen 
                 name="ChatsList"
                 component={ChatsList}
                 options={{title: 'ChatsList'}}
-            />  */}
+            /> */}           
             {/* <Stack.Screen 
                 name="Chat"
                 component={Chat}
@@ -56,7 +54,7 @@ export default function Navigate(){
                 component={DataBase}
                 options={{title: 'DataBase'}}
             />   
-             <Stack.Screen 
+            <Stack.Screen 
                 name="EditDataBase"
                 component={EditDataBase}
                 options={{title: 'EditDataBase'}}
@@ -95,12 +93,7 @@ export default function Navigate(){
                 name="AllDateEvents"
                 component={AllDateEvents}
                 options={{title: 'AllDateEvents'}}
-            />               */}                        
-            {/* <Stack.Screen 
-                name="Avaliable"
-                component={Avaliable}
-                options={{title: 'Avaliable'}}
-            />                                     */}
+            />                                */}
         </Stack.Navigator>
     </NavigationContainer>
 }

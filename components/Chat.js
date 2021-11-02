@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, StatusBar, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600Medium} from '@expo-google-fonts/poppins';
+import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold} from '@expo-google-fonts/poppins';
 
 import ArrowLeft from '../assets/arrow-left.svg'
 import ArrowUp from '../assets/arrow_up.svg'
@@ -10,7 +10,7 @@ export default function Chat({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
-    Poppins_600Medium
+    Poppins_600SemiBold
   });   
 
   let [message, changeMessage] = React.useState("");
@@ -34,7 +34,7 @@ export default function Chat({ navigation }) {
           <View style={{flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center'}}>
             <Text style={{color: '#112B66', fontSize: 16, fontFamily: 'Poppins_500Medium'}}>CALENDAR UPDATE</Text>
             <View style={{margin: 4, marginLeft: '1.4%', marginBottom: '1%', borderRadius: 160, width: 5, height: 5, backgroundColor: '#C4C4C4'}} />
-            <Text style={{marginBottom: '0.5%', color: '#979797', justifyContent: 'center', alignItems: 'center', fontFamily: 'Poppins_600Medium'}}>5 minutes ago</Text>
+            <Text style={{marginBottom: '0.5%', color: '#979797', justifyContent: 'center', alignItems: 'center', fontFamily: 'Poppins_600SemiBold'}}>5 minutes ago</Text>
           </View>
           <Text style={{alignSelf: 'flex-start', fontFamily: 'Poppins_500Medium', fontSize: 18}}>New Message</Text>
         </View>        
@@ -51,7 +51,7 @@ export default function Chat({ navigation }) {
           </View>
         </View>
         <ScrollView style={styles.container}>    
-          {chatMessaged.reverse().map((item, index) => {
+          {chatMessaged.map((item, index) => {
             return(
             <View key={index} style={[{display: 'flex', justifyContent: 'space-between'}, item.receiver ? {alignItems: 'flex-end'} : {alignItems: 'flex-start'}]}>
               <View key={index} style={[{ width: '70%', marginTop: '1%'}, item.receiver ? {marginRight: '4%'} : {marginLeft: '4%'}]}>

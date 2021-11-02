@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import {connect} from 'react-redux'
 import { useFonts, Poppins_400Regular, Poppins_700Bold} from '@expo-google-fonts/poppins';
 import Eye from  '../assets/fa-solid_eye.svg'
 import HiddenEye from  '../assets/hiddenEye.svg'
 
-function Login({ navigation }) {
+export default function Login({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold
@@ -63,14 +62,6 @@ function Login({ navigation }) {
     )
   }
 }
-
-function mapStateToProps(state){
-  return {
-    login: state.login
-  }
-}
-
-export default connect(mapStateToProps)(Login)
 
 const styles = StyleSheet.create({
   login: {
