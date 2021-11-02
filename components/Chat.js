@@ -1,25 +1,26 @@
 import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, FlatList, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, StatusBar, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600Medium} from '@expo-google-fonts/poppins';
 
 import ArrowLeft from '../assets/arrow-left.svg'
 import ArrowUp from '../assets/arrow_up.svg'
 
-export default function Chat({ route, navigation }) {
+export default function Chat({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
-    Poppins_500Medium
+    Poppins_500Medium,
+    Poppins_600Medium
   });   
 
   let [message, changeMessage] = React.useState("");
-  
+
   let [chatMessaged] = useState([
-    { receiver: false, name: route.params.name, text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla quam eu faci lisis mollis. ' },
+    { receiver: false, name: 'ShaMsiDDin', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla quam eu faci lisis mollis. ' },
     { receiver: true, name: '***ShaMsiDDin***', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' },
     { receiver: true, name: '***ShaMsiDDin***', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' },
-    { receiver: false, name: route.params.name, text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla quam eu faci lisis mollis. ' },
-    { receiver: false, name: route.params.name, text: '111Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla quam eu faci lisis mollis.' },
+    { receiver: false, name: 'ShaMsiDDin', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla quam eu faci lisis mollis. ' },
+    { receiver: false, name: 'ShaMsiDDin', text: '111Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla quam eu faci lisis mollis.' },
     { receiver: true, name: '***ShaMsiDDin***', text: '222That`s better...' }
   ])
   
@@ -29,10 +30,17 @@ export default function Chat({ route, navigation }) {
     return(
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss} accessible={false}>
       <View style={styles.chat}>
+        <View style={[styles.notification, {position: 'absolute', justifyContent: 'flex-start', alignItems: 'center'}]}>
+          <View style={{flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center'}}>
+            <Text style={{color: '#112B66', fontSize: 16, fontFamily: 'Poppins_500Medium'}}>CALENDAR UPDATE</Text>
+            <View style={{margin: 4, marginLeft: '1.4%', marginBottom: '1%', borderRadius: 160, width: 5, height: 5, backgroundColor: '#C4C4C4'}} />
+            <Text style={{marginBottom: '0.5%', color: '#979797', justifyContent: 'center', alignItems: 'center', fontFamily: 'Poppins_600Medium'}}>5 minutes ago</Text>
+          </View>
+          <Text style={{alignSelf: 'flex-start', fontFamily: 'Poppins_500Medium', fontSize: 18}}>New Message</Text>
+        </View>        
         <View style={[styles.chatHeader]}>
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '96%'}}>
             <View style={styles.contact}>
-              {/* <Image style={styles.arrow} source={ArrowLeft}/>  */}
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <ArrowLeft style={styles.arrow}/>             
               </TouchableOpacity>
@@ -42,19 +50,21 @@ export default function Chat({ route, navigation }) {
             </TouchableOpacity>    
           </View>
         </View>
-        <View style={styles.container}>    
-          <FlatList style={{width: '100%', paddingLeft: '2%', paddingRight: '2%'}} data={chatMessaged} renderItem={({item, index}) => (
+        <ScrollView style={styles.container}>    
+          {chatMessaged.reverse().map((item, index) => {
+            return(
             <View key={index} style={[{display: 'flex', justifyContent: 'space-between'}, item.receiver ? {alignItems: 'flex-end'} : {alignItems: 'flex-start'}]}>
               <View key={index} style={[{ width: '70%', marginTop: '1%'}, item.receiver ? {marginRight: '4%'} : {marginLeft: '4%'}]}>
                 <Text style={[{fontFamily: 'Poppins_500Medium'}, item.receiver ? {alignSelf: 'flex-end'} : {alignItems: 'flex-start'}]}>{item.name}</Text>
                 <View  style={[styles.message, item.receiver ? styles.receiver : styles.sender]}>
                   <Text style={[item.receiver ? {color: '#112B66'} : {color: 'white'}, {fontFamily: 'Poppins_400Regular'}]}>{item.text}</Text>
                 </View>
-                <View style={[styles.TriangleShapeCSS, item.receiver ? styles.TriangleShapeRightCSS : styles.TriangleShapeLeftCSS]} />
               </View>
+              <View style={[styles.TriangleShapeCSS, item.receiver ? styles.TriangleShapeRightCSS : styles.TriangleShapeLeftCSS]} />
             </View>
-          )} />
-        </View>      
+            )})
+          }
+        </ScrollView>      
         <View style={styles.messageInput}>
           <TextInput
             style={styles.input}
@@ -63,13 +73,11 @@ export default function Chat({ route, navigation }) {
             placeholder="Type here..."
           />
           <View style={styles.sendButton}>
-            {/* <Image style={{width: '12px', height: '18px'}} source={ArrowUp} /> */}
-            <ArrowUp style={{width: '12px', height: '18px'}} />
+            <ArrowUp style={{width: 12, height: 18}} />
           </View>      
         </View>      
       </View>
     </TouchableWithoutFeedback>
-
     )
   }
 }
@@ -80,6 +88,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1
+  },
+  notification: {
+    top: '5%',
+    justifyContent: 'flex-start',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    width: '95%',
+    paddingVertical: '1%',
+    padding: '4%',
+    zIndex: 9999
   },
   chatHeader: {
     display: 'flex',
@@ -114,11 +132,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '22%',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingBottom: StatusBar.currentHeight,
     width: '100%',
-    height: '62%',
-    overflow: 'hidden'
+    height: '62%'
   },  
   message: {
     borderRadius: 10,
@@ -137,21 +153,21 @@ const styles = StyleSheet.create({
   TriangleShapeCSS: {
     width: 0,
     height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderRightColor: "transparent"
+    borderTopWidth: 16,
+    borderStyle: 'solid',
+    borderLeftColor: '#F5F5F5',
+    borderRightColor: '#F5F5F5'
   },
   TriangleShapeLeftCSS: {
-    borderRightWidth: 12,
-    borderTopWidth: 12,
-    borderColor: '#112B66'
+    borderRightWidth: 22,
+    marginLeft: '4%',
+    borderTopColor: '#112B66',
   }, 
   TriangleShapeRightCSS: {
+    borderLeftWidth: 22,
+    marginRight: '4%',
     alignSelf: 'flex-end',
-    borderRightWidth: 12,
-    borderTopWidth: 12,
-    transform: [{ rotate: "90deg" }],
-    borderColor: 'white'
+    borderTopColor: 'white',
   },
   messageInput: {
     position: 'absolute',
@@ -175,13 +191,13 @@ const styles = StyleSheet.create({
   },  
   sendButton: {
     position: 'absolute', 
-    right: '12%',
+    right: '11%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#112B66',
     borderRadius: 190,
-    width: '9%', 
-    height: '40%'
+    width: 40, 
+    height: 40
   }  
 })

@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
-import { useFonts, Poppins_400Regular} from '@expo-google-fonts/poppins';
+import {connect} from 'react-redux'
+import { useFonts, Poppins_400Regular, Poppins_700Bold} from '@expo-google-fonts/poppins';
 import Eye from  '../assets/fa-solid_eye.svg'
 import HiddenEye from  '../assets/hiddenEye.svg'
 
-export default function Login({ navigation }) {
+function Login({ navigation }) {
   let [fontsLoaded] = useFonts({
-    Poppins_400Regular
+    Poppins_400Regular,
+    Poppins_700Bold
   });
   const loadScene = () => {
     navigation.navigate('Welcome')
@@ -41,12 +43,9 @@ export default function Login({ navigation }) {
             />
             <TouchableOpacity style={{position: 'absolute', right: '12%'}} onPress={() => setPassHide(!passHide)}>
               {passHide ? 
-                // <Image style={{width: '22px', height: '16px'}} source={Eye} />
                 <Eye style={{width: '22px', height: '16px'}} /> 
-              
                 :
                 <HiddenEye style={{width: '22px', height: '16px'}} /> 
-              // <Image style={{width: '22px', height: '16px'}} source={HiddenEye} />
               }
             </TouchableOpacity>
           </View>
@@ -64,7 +63,15 @@ export default function Login({ navigation }) {
     )
   }
 }
-  
+
+function mapStateToProps(state){
+  return {
+    login: state.login
+  }
+}
+
+export default connect(mapStateToProps)(Login)
+
 const styles = StyleSheet.create({
   login: {
     display: 'flex',
@@ -78,7 +85,7 @@ const styles = StyleSheet.create({
   },
   loginLogo: {
     fontSize: 20,
-    fontWeight: '700',
+    fontFamily: 'Poppins_700Bold',
     marginBottom: '7%'
   },
   searchSection: {

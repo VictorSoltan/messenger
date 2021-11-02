@@ -5,6 +5,7 @@ import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fon
 
 import ArrowLeft from '../assets/arrow-left.svg'
 import SelectTrue from '../assets/selectTrue.svg'
+import BlueButton from "../components/BlueButton";
 
 export default function Broadcasts({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -35,8 +36,7 @@ export default function Broadcasts({ navigation }) {
         <View style={styles.chatHeader}>
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
             <View style={styles.contact}>
-              <Image style={styles.arrow} source={ArrowLeft}/> 
-              {/* <ArrowLeft style={{width: 14, height: 10, marginRight: '12%'}}/>  */}            
+              <ArrowLeft style={{width: 14, height: 10}}/>             
             </View>     
             <TouchableOpacity style={styles.button} >
               <Text style={[styles.buttonText, {color: 'white'}]}>Save Broadcast</Text>
@@ -61,10 +61,9 @@ export default function Broadcasts({ navigation }) {
                   </TouchableOpacity>
                 :
                   <TouchableOpacity style={{position: 'absolute', left: '4%'}} onPress={() => updateFieldChanged(index)}>
-                    <Image style={styles.select} source={SelectTrue}/> 
+                    <SelectTrue style={styles.select} source={SelectTrue}/>   
                   </TouchableOpacity>
                 }
-                {/* <ArrowLeft style={{width: 14, height: 10, marginRight: '12%'}}/>  */}  
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: '8%'}}>
                   <Text style={{textAlign: 'center', fontFamily: 'Poppins_500Medium', fontSize: 23}}>{item.title}</Text>
                   <Text style={{marginLeft: '4%', fontFamily: 'Poppins_500Medium', fontSize: 17, color: '#8A8A8A'}}>{item.city}</Text>
@@ -75,9 +74,9 @@ export default function Broadcasts({ navigation }) {
 
           )} />
         </View>         
-        <TouchableOpacity style={[styles.button, styles.homeButton]} onPress={() => navigation.navigate('Welcome')}>
-          <Text style={[styles.buttonText, {color: 'white'}]}>Home</Text>
-        </TouchableOpacity>              
+        <View style={{position: 'absolute', bottom: '2%', width: '84%'}}>
+          <BlueButton title='Save'/>        
+        </View>              
       </View>
     )
   }
@@ -163,13 +162,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center'
   },
-  homeButton: {
-    position: 'absolute',
-    bottom: '2%',
-  },
   buttonText: {
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '500',
+    fontFamily: 'Poppins_500Medium',
     fontSize: 20,
   }
 })
