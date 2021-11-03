@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 
 import ArrowLeft from '../assets/arrow-left.svg'
@@ -13,10 +13,18 @@ export default function Broadcasts({ navigation }) {
     Poppins_500Medium
   });   
 
+  let [employer, setEmployer] = useState(true)
+
   let [broadcastsPreview, setBroadcastsPreview] = useState([
     {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
     {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
     {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
+    {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
+    {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
+    {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
+    {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
+    {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
+    {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},        
     {selected: false, title: '***ShaMsiDDin***', city: 'Kiev'},
     {selected: false, title: 'ShaMsiDDin', city: 'Kiev'},
     {selected: false, title: 'ShaMsiDDin', city: 'Kiev'}
@@ -35,24 +43,26 @@ export default function Broadcasts({ navigation }) {
       <View style={[styles.broadcasts]}>  
         <View style={styles.chatHeader}>
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
-            <View style={styles.contact}>
+            <TouchableOpacity style={styles.contact} onPress={() => navigation.goBack()}>
               <ArrowLeft style={{width: 14, height: 10}}/>             
-            </View>     
+            </TouchableOpacity>     
             <TouchableOpacity style={styles.button} >
               <Text style={[styles.buttonText, {color: 'white'}]}>Save Broadcast</Text>
             </TouchableOpacity>    
           </View>
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '88%', marginTop: '2%'}}>     
-            <TouchableOpacity style={[styles.twoButtons, styles.stuff]} >
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '88%', marginTop: '4%'}}>     
+            <TouchableOpacity style={[styles.twoButtons, employer ? {backgroundColor: '#FFFFE8'} : null]} onPress={() => setEmployer(true)}>
               <Text style={[styles.buttonText, {color: '#222222'}]}>STAFF</Text>
             </TouchableOpacity>  
-            <TouchableOpacity style={[styles.twoButtons, styles.clients]} >
+            <TouchableOpacity style={[styles.twoButtons, !employer ? {backgroundColor: '#E8F4FF'} : null]} onPress={() => setEmployer(false)}>
               <Text style={[styles.buttonText, {color: '#222222'}]}>CLIENTS</Text>
             </TouchableOpacity>                          
           </View>     
         </View>     
         <View style={styles.container}>    
-          <FlatList style={{width: '100%'}} data={broadcastsPreview} renderItem={({item, index}) => (
+        <ScrollView style={{width: '100%'}}>
+          {broadcastsPreview.map((item, index) => {
+            return(
             <View style={{alignItems: 'center'}}>
               <View key={index} style={[styles.broadcast, !item.selected ? {backgroundColor: '#E8F4FF'} : ((index+1)%3===0 ? {backgroundColor: '#E9FFE8'} : index%3===0 ? {backgroundColor: '#E8F4FF'} : {backgroundColor: '#FFFFE8'})]}>
                 {!item.selected ? 
@@ -71,8 +81,8 @@ export default function Broadcasts({ navigation }) {
               </View>
               <View style={styles.chatLine}/>
             </View>
-
-          )} />
+          )})}
+        </ScrollView>
         </View>         
         <View style={{position: 'absolute', bottom: '2%', width: '84%'}}>
           <BlueButton title='Save'/>        
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    marginTop: '14%',
+    marginTop: '8%',
     padding: '3%',
   },
   contact: {
@@ -112,7 +122,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#222222',
     borderRadius: 16,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#979797'
   },
   stuff: {
     backgroundColor: '#FFFFE8'
@@ -121,13 +132,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8F4FF'
   }, 
   container: {
-    position: 'absolute',
-    top: '26%',
+    marginTop: '2%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '72%',
+    maxHeight: '62%',
     overflow: 'hidden' 
   },   
   broadcast: {

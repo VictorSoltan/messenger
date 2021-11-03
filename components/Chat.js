@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, StatusBar, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold} from '@expo-google-fonts/poppins';
 
 import ArrowLeft from '../assets/arrow-left.svg'
 import ArrowUp from '../assets/arrow_up.svg'
 
-export default function Chat({ navigation }) {
+export default function Chat({ route, navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_600SemiBold
   });   
-
+  
   let [message, changeMessage] = React.useState("");
 
   let [chatMessaged] = useState([
@@ -39,31 +39,35 @@ export default function Chat({ navigation }) {
           <Text style={{alignSelf: 'flex-start', fontFamily: 'Poppins_500Medium', fontSize: 18}}>New Message</Text>
         </View>        
         <View style={[styles.chatHeader]}>
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '96%'}}>
-            <View style={styles.contact}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+          <View style={[!route.params ? {justifyContent: 'center',} : {justifyContent: 'space-between',}, { display: 'flex', flexDirection: 'row', alignItems: 'center', width: '96%'}]}>
+            {route.params ? 
+              <TouchableOpacity style={styles.contact} onPress={() => navigation.goBack()}>
                 <ArrowLeft style={styles.arrow}/>             
               </TouchableOpacity>
-            </View>     
-            <TouchableOpacity style={styles.button} >
-              <Text style={styles.buttonText}>Calendar</Text>
+            : null}
+            <TouchableOpacity style={[styles.button, !route.params ? {width: '94%'} : null]} >
+              <Text style={styles.buttonText}>
+              {route.params ? 
+              'Calendar'
+              : 'AVIABILITY CALENDAR'}
+              </Text>
             </TouchableOpacity>    
           </View>
         </View>
         <ScrollView style={styles.container}>    
           {chatMessaged.map((item, index) => {
             return(
-            <View key={index} style={[{display: 'flex', justifyContent: 'space-between'}, item.receiver ? {alignItems: 'flex-end'} : {alignItems: 'flex-start'}]}>
-              <View key={index} style={[{ width: '70%', marginTop: '1%'}, item.receiver ? {marginRight: '4%'} : {marginLeft: '4%'}]}>
-                <Text style={[{fontFamily: 'Poppins_500Medium'}, item.receiver ? {alignSelf: 'flex-end'} : {alignItems: 'flex-start'}]}>{item.name}</Text>
-                <View  style={[styles.message, item.receiver ? styles.receiver : styles.sender]}>
-                  <Text style={[item.receiver ? {color: '#112B66'} : {color: 'white'}, {fontFamily: 'Poppins_400Regular'}]}>{item.text}</Text>
+              <View key={index} style={[{display: 'flex', justifyContent: 'space-between'}, item.receiver ? {alignItems: 'flex-end'} : {alignItems: 'flex-start'}]}>
+                <View key={index} style={[{ width: '70%', marginTop: '1%'}, item.receiver ? {marginRight: '4%'} : {marginLeft: '4%'}]}>
+                  <Text style={[{fontFamily: 'Poppins_500Medium'}, item.receiver ? {alignSelf: 'flex-end'} : {alignItems: 'flex-start'}]}>{item.name}</Text>
+                  <View  style={[styles.message, item.receiver ? styles.receiver : styles.sender]}>
+                    <Text style={[item.receiver ? {color: '#112B66'} : {color: 'white'}, {fontFamily: 'Poppins_400Regular'}]}>{item.text}</Text>
+                  </View>
                 </View>
+                <View style={[styles.TriangleShapeCSS, item.receiver ? styles.TriangleShapeRightCSS : styles.TriangleShapeLeftCSS]} />
               </View>
-              <View style={[styles.TriangleShapeCSS, item.receiver ? styles.TriangleShapeRightCSS : styles.TriangleShapeLeftCSS]} />
-            </View>
-            )})
-          }
+            )
+          })}
         </ScrollView>      
         <View style={styles.messageInput}>
           <TextInput
@@ -129,12 +133,12 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   container: {
-    position: 'absolute',
-    top: '22%',
-    display: 'flex',
+    flexGrow : 1,
+    flex: 1,
+    marginTop: '2%',
     paddingBottom: StatusBar.currentHeight,
     width: '100%',
-    height: '62%'
+    maxHeight: '62%',
   },  
   message: {
     borderRadius: 10,
@@ -151,6 +155,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0
   },
   TriangleShapeCSS: {
+    marginTop: -1,
     width: 0,
     height: 0,
     borderTopWidth: 16,
@@ -170,9 +175,8 @@ const styles = StyleSheet.create({
     borderTopColor: 'white',
   },
   messageInput: {
-    position: 'absolute',
     width: '100%',
-    bottom: '3%',
+    marginTop: '6%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

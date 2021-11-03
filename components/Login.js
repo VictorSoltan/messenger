@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { connect } from 'react-redux';
 import { useFonts, Poppins_400Regular, Poppins_700Bold} from '@expo-google-fonts/poppins';
 import Eye from  '../assets/fa-solid_eye.svg'
 import HiddenEye from  '../assets/hiddenEye.svg'
+import BlueButton from "../components/BlueButton";
 
-export default function Login({ navigation }) {
+function Login(props) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold
   });
-  const loadScene = () => {
-    navigation.navigate('Welcome')
+  const LoginCheck = () => {
+    if(mail==='admin'){
+      props.adminEnter()
+    }else{
+      props.userEnter()
+    }
   }
 
   let [mail, changeMail] = useState("");
@@ -48,13 +54,11 @@ export default function Login({ navigation }) {
               }
             </TouchableOpacity>
           </View>
-          <View style={{marginTop: '8.4%', width: '100%', alignItems: 'center'}}>
-            <TouchableOpacity style={styles.button} onPress={loadScene}>
-              <Text style={styles.buttonText}>Enter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} >
-              <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>            
+          <View style={{marginTop: '8.4%', width: '84%', alignItems: 'center'}}>
+            <BlueButton func={LoginCheck} title="Enter" link="Welcome"/>
+            <View style={{marginTop: '5%', width: '100%'}}>
+              <BlueButton title="Register" link="Registration"/>
+            </View>           
           </View>
         </View>
       </View>
@@ -62,6 +66,20 @@ export default function Login({ navigation }) {
     )
   }
 }
+function mapStateToProps(state){
+  return {
+    admin: state.admin
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    adminEnter: () => dispatch({ type: 'ADMIN_ENTER'}),
+    userEnter: () => dispatch({ type: 'USER_ENTER'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   login: {
@@ -96,19 +114,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     color: '#8A8A8A',
     fontFamily: 'Poppins_400Regular'
-  },
-  button: {
-    backgroundColor: '#112B66',
-    marginTop: '5%',
-    padding: '3.2%',
-    width: '84%',
-    borderRadius: 100,
-    alignItems: 'center'
-  },
-  buttonText: {
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '500',
-    fontSize: 20,
-    color: 'white'
   }
 })

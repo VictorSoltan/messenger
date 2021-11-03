@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
 import Pencil from '../assets/pencil.svg'
@@ -37,7 +37,7 @@ export default function DataBase() {
 
   let [openEditior, setOpenEditor] = useState(false) 
   let editButton = [
-    {title: 'ADD', link: ''}, 
+    {title: 'ADD', link: 'AddBooking'}, 
     {title: 'EDIT', link: 'EditDataBase'}, 
     {title: 'ERASE', link: 'EraseDataBase'}, 
     {title: 'BLOCK', link: ''}, 
@@ -62,11 +62,10 @@ export default function DataBase() {
     return <AppLoading />;
   } else {
     return(
+    <TouchableWithoutFeedback onPress={toggleEditor} accessible={false}>
         <View style={[styles.container]}>    
           { DataTableBase.map((item, index) => {
             return(
-              <>
-              {item.show ?
                 <View key={index} style={{width: '100%', alignItems: 'center'}}>
                   <Text style={[index===0 ? {marginTop:'14%'} : {marginTop: '1%'}, {fontFamily: 'Poppins_700Bold', fontSize: 20}]}>{item.title}</Text>
                   <View style={{width: '100%'}}>
@@ -87,8 +86,6 @@ export default function DataBase() {
                     </TouchableOpacity>
                   </View>   
                 </View>
-              : null }    
-              </>   
             )})
           }           
           {openEditior?
@@ -104,6 +101,7 @@ export default function DataBase() {
             </View>   
           : null} 
         </View>
+      </TouchableWithoutFeedback>
     )
   }
 }

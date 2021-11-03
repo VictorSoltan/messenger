@@ -16,6 +16,7 @@ import Registration from "../components/Registration";
 import RegistrationStuff from "../components/RegistrationStuff";
 import AddBooking from "../components/AddBooking";
 import AllDateEvents from "../components/AllDateEvents";
+import Avaliable from "../components/Avaliable";
 
 const Stack = createStackNavigator()
 
@@ -24,12 +25,12 @@ export default function Navigate(){
         <Stack.Navigator  screenOptions={{
             headerShown: false
         }}>
-            {/* <Stack.Screen 
+            <Stack.Screen 
                 name="Login"
                 component={Login}
                 options={{title: 'Login'}}
-            />*/}
-            {/* <Stack.Screen 
+            />
+            <Stack.Screen 
                 name="Welcome"
                 component={Welcome}
                 options={{title: 'Welcome'}}
@@ -38,22 +39,22 @@ export default function Navigate(){
                 name="ChatsList"
                 component={ChatsList}
                 options={{title: 'ChatsList'}}
-            /> */}           
-            {/* <Stack.Screen 
+            />         
+            <Stack.Screen 
                 name="Chat"
                 component={Chat}
                 options={{title: 'Chat'}}
-            />                    */}
-            {/* <Stack.Screen 
+            />                   
+            <Stack.Screen 
                 name="Broadcasts"
                 component={Broadcasts}
                 options={{title: 'Broadcasts'}}
-            />         */}
-            {/* <Stack.Screen 
+            />                    
+            <Stack.Screen 
                 name="DataBase"
                 component={DataBase}
                 options={{title: 'DataBase'}}
-            />   
+            />    
             <Stack.Screen 
                 name="EditDataBase"
                 component={EditDataBase}
@@ -63,37 +64,42 @@ export default function Navigate(){
                 name="EraseDataBase"
                 component={EraseDataBase}
                 options={{title: 'EraseDataBase'}}
-            />               */}
-            {/* <Stack.Screen 
+            />              
+            <Stack.Screen 
                 name="DateEvents"
                 component={DateEvents}
                 options={{title: 'DateEvents'}}
-            />        */}
-            {/* <Stack.Screen 
+            />       
+            <Stack.Screen 
                 name="Calendar"
                 component={Calendar}
                 options={{title: 'Calendar'}}
-            /> */}
-            {/* <Stack.Screen 
+            />
+            <Stack.Screen 
                 name="Registration"
                 component={Registration}
                 options={{title: 'Registration'}}
-            />        */}
-            {/* <Stack.Screen 
+            />       
+            <Stack.Screen 
                 name="RegistrationStuff"
                 component={RegistrationStuff}
                 options={{title: 'RegistrationStuff'}}
-            />                   */}
-            {/* <Stack.Screen 
+            />                  
+            <Stack.Screen 
                 name="AddBooking"
                 component={AddBooking}
                 options={{title: 'AddBooking'}}
-            />        */}
-            {/* <Stack.Screen 
+            />       
+            <Stack.Screen 
                 name="AllDateEvents"
                 component={AllDateEvents}
                 options={{title: 'AllDateEvents'}}
-            />                                */}
+            />                               
+            <Stack.Screen 
+                name="Avaliable"
+                component={Avaliable}
+                options={{title: 'Avaliable'}}
+            />                                            
         </Stack.Navigator>
     </NavigationContainer>
 }

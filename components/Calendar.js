@@ -7,7 +7,7 @@ import Right from '../assets/right.svg'
 
 import BlueButton from "../components/BlueButton";
 
-export default function DateEvents({ navigate }) {
+export default function DateEvents({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium, 
@@ -22,26 +22,9 @@ export default function DateEvents({ navigate }) {
     'September', 'October', 
     'November', 'December']
     let weekdaysShort = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-
-    // July
-    daysInMonth(7,2009); // 31
-    // February
-    daysInMonth(2,2009); // 28
-    daysInMonth(2,2008); // 29
-    // day of the week 
-    var dt = new Date("December 23, 1995 00:00:00");
-
-    let [xState, setXState] = useState(0)
-    let [myScroll, setMyScroll] = useState(null)
     
-    function handleScroll(e) {
-      setXState(e.nativeEvent.contentOffset.x)
-      if(xState > 100){
-        myScroll.scrollTo(0) // !!
-
-        setXState(0)
-      }
-      console.log(xState);
+    const loadScene = () => {
+      navigation.navigate('DateEvents')
     }
 
   const today = new Date();
@@ -135,28 +118,28 @@ export default function DateEvents({ navigate }) {
         <View style={{display: 'flex', flexWrap: 'wrap', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', marginTop: '4%', paddingHorizontal:'7%'}}>
           {[...Array(daysInMonth(lastMonth+1, today.getFullYear())).keys()].slice(-14).map((item, index) => {
             return(
-              <View key={index} style={[styles.cell, {borderColor: '#919db6', width: '14.28%', alignItems: 'center', justifyContent: 'center'}]}>
+              <TouchableOpacity onPress={loadScene} key={index} style={[styles.cell, {borderColor: '#919db6', width: '14.28%', alignItems: 'center', justifyContent: 'center'}]}>
                 <Text style={{fontSize: 16, fontFamily: 'Poppins_700Bold', color: '#b8b8b8'}} key={index}>{item+1}</Text>
-              </View>
+              </TouchableOpacity>
             )
           })}
           {[...Array(daysInMonth(currentMonth+1, today.getFullYear())).keys()].map((item, index) => {
             return(
-              <View key={index} style={[styles.cell, {backgroundColor: 'white', borderColor: '#112b66', width: '14.28%', alignItems: 'center', justifyContent: 'center'}]}>
+              <TouchableOpacity onPress={loadScene} key={index} style={[styles.cell, {backgroundColor: 'white', borderColor: '#112b66', width: '14.28%', alignItems: 'center', justifyContent: 'center'}]}>
                 <Text style={{fontSize: 16, fontFamily: 'Poppins_700Bold', color: '#000000'}} key={index}>{item+1}</Text>
-              </View>
+              </TouchableOpacity>
             )
           })}
           {[...Array(daysInMonth(nextMonth+1, today.getFullYear())).keys()].slice(0, 14+( 7- daysInMonth(currentMonth+1, today.getFullYear()) %7)).map((item, index) => {
             return(
-              <View key={index} style={[styles.cell, {borderColor: '#112b66', width: '14.28%', alignItems: 'center', justifyContent: 'center'}]}>
+              <TouchableOpacity onPress={loadScene} key={index} style={[styles.cell, {borderColor: '#112b66', width: '14.28%', alignItems: 'center', justifyContent: 'center'}]}>
                 <Text style={{fontSize: 16, fontFamily: 'Poppins_700Bold', color: '#b8b8b8'}} key={index}>{item+1}</Text>
-              </View>
+              </TouchableOpacity>
             )
           })}          
         </View>
         <View style={{marginTop: '4%', width: '84%'}}>
-          <BlueButton title='CHAT WITH MANAGER'/>        
+          <BlueButton title='CHAT WITH MANAGER' link="Chat" />        
         </View>
       </View>
     )

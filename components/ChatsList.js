@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TextInput, ScrollView, FlatList, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 import ChatDiv from './ChatDiv'
 import Search from '../assets/search.svg'
@@ -24,6 +24,8 @@ export default function ChatsList() {
     { name: '***ShaMsiDDin***', messagePreview: 'That`s better...', time: '9:09', notAnswered: '', sound: true, groupChat: false }
   ])
 
+  let [broadcast, setBroadcast] = useState(false)
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -32,21 +34,26 @@ export default function ChatsList() {
 
     <View style={styles.chats}>
       <View style={[styles.search, {marginTop: '6%'}]}>
+      {!broadcast ?
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-          <Search style={{position: 'absolute', width: 13, height: 13, marginRight: '4%'}}/>          
-          <TextInput
-            style={styles.input}
-            onChangeText={searchChat}
-            value={search}
-            placeholder="Search"
-          />  
+              <Search style={{position: 'absolute', width: 13, height: 13, marginRight: '4%'}}/>          
+              <TextInput
+                style={styles.input}
+                onChangeText={searchChat}
+                value={search}
+                placeholder="Search"
+              />
+
         </View>
-        <View style={styles.contact}>
+          : null}
+          <TouchableOpacity style={[styles.contact, broadcast ? {width: '88%'} : null]} onPress={() => setBroadcast(!broadcast)}>
+          {!broadcast ?
           <Contact style={{width: 23, height: 23}}/>
-        </View>
+          : <Text style={{fontFamily: 'Poppins_500Medium', fontSize: 20, color: '#F5F5F5'}}>New Broadcast</Text>}
+          </TouchableOpacity>
       </View>
-      <ScrollView style={{position: 'absolute', top: '12%', height: '72%'}}> 
-        <ChatDiv setChatDivs={setChatDivs} chatDivs={chatDivs}/>
+      <ScrollView style={[broadcast ? {marginTop: '6%'} : {marginTop: '2%'}, {height: '72%', width: '100%'}]}> 
+        <ChatDiv broadcast={broadcast} setChatDivs={setChatDivs} chatDivs={chatDivs}/>
       </ScrollView> 
       <View style={{position: 'absolute', width: '90%', bottom: '3%'}}>
         <BlueButton title="Home" link="Welcome"/>            
@@ -103,7 +110,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '90%'
+    paddingHorizontal: '5%'
   },
   input: {
     width: '84%',
@@ -117,6 +124,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular'
   },  
   contact: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#112B66',
     borderRadius: 190,
     marginLeft: '-2%',

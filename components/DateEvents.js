@@ -8,7 +8,7 @@ import Right from '../assets/right.svg'
 
 import BlueButton from "./BlueButton";
 
-export default function DateEvents({ navigate }) {
+export default function DateEvents({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium, 
@@ -36,6 +36,10 @@ export default function DateEvents({ navigate }) {
 
   let [daySeted, setDaySeted] = useState(true)
   let [monthSeted, setMonthSeted] = useState(true)
+
+  const loadScene = () => {
+    navigation.navigate('Chat')
+  }
 
 
   if(monthSeted){
@@ -161,7 +165,6 @@ export default function DateEvents({ navigate }) {
           <TouchableOpacity onPress={goBack}>
             <Left style={{width: 20, height: 30}}/>
           </TouchableOpacity>
-          {/* <ScrollView ref={(ref) => {setMyScroll(ref)}}  scrollEventThrottle={16} onScroll={(e) => handleScroll(e)} horizontal={true} style={{display: 'flex', flexDirection:'row', width: "100%", height: '70%'}}>  */}
           <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginLeft: '6%'}]}>
             <Text style={[{width: 20, textAlign: 'center', fontSize: 16}]}>{yesterday}</Text>
           </View>
@@ -171,7 +174,6 @@ export default function DateEvents({ navigate }) {
           <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginRight: '6%'}]}>
             <Text style={[{width: 20, textAlign: 'center', fontSize: 16}]}>{tomorrow}</Text>
           </View>
-          {/* </ScrollView> */}
           <TouchableOpacity onPress={goForward}>
             <Right style={{width: 20, height: 30}}/>
           </TouchableOpacity>
@@ -180,14 +182,14 @@ export default function DateEvents({ navigate }) {
           return(        
             <View key={index} style={styles.dayEvents}>
               <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 24}}>{item.time}</Text>
-              <View style={[styles.Event, item.avaliable === 0 ? {backgroundColor: '#03CC00'} : item.avaliable === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
+              <TouchableOpacity onPress={loadScene} style={[styles.Event, item.avaliable === 0 ? {backgroundColor: '#03CC00'} : item.avaliable === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
                 <Text style={[item.avaliable === 0 ? {color: 'white', fontSize: 16} : item.avaliable === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.title}</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           )})
         }          
         <View style={{marginTop: '5%', width: '88%'}}>
-          <BlueButton title='CHAT WITH MANAGER'/>        
+          <BlueButton title='CHAT WITH MANAGER' link="Chat"/>        
         </View>
       </View>
     )

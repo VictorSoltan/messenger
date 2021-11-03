@@ -1,18 +1,24 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { connect } from 'react-redux';
 import { useFonts, Poppins_400Regular} from '@expo-google-fonts/poppins';
+import BlueButton from "../components/BlueButton";
 
-export default function Welcome({ navigation }) {
+function Welcome(props, { navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular
   });   
 
-  let buttonsData = [
+  let managerData = [
     {value: 'Chat', link: 'ChatsList'}, 
-    {value: 'Check / Fill Calendar', link: null }, 
+    {value: 'Check / Fill Calendar', link: 'Avaliable' }, 
     {value: 'DataBase', link: 'DataBase'}, 
-    {value: 'Add Staff / Mrg', link: null}
+    {value: 'Add Staff / Mrg', link: 'RegistrationStuff'}
+  ]
+  let clientData = [
+    {value: 'Chat with a manager', link: 'Chat'}, 
+    {value: 'Staff availiability calendar', link: 'Avaliable' }
   ]
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -21,23 +27,33 @@ export default function Welcome({ navigation }) {
     <View style={styles.wel}>
       <View style={styles.welContainer}>
         <Text style={styles.welLogo}>WELCOME</Text>
-        <FlatList style={{ width: '84%'}} data={buttonsData} renderItem={({item, index}) => (
-          <TouchableOpacity style={styles.button} key={index} onPress={() => navigation.navigate(item.link)}>
-            <Text style={styles.buttonText}>{item.value}</Text>
-          </TouchableOpacity>  
-        )} />
+        {(props.admin ? managerData : clientData).map((item, index) => {
+          return(
+            <View key={index} style={{marginTop: '5%', width: '100%'}}>
+              <BlueButton title={item.value} link={item.link}/>
+            </View>
+          )
+        })} 
       </View>
     </View>
   )}
 }
 
+function mapStateToProps(state){
+  return {
+    admin: state.admin
+  }
+}
+
+export default connect(mapStateToProps)(Welcome);
+
 const styles = StyleSheet.create({
   wel: {
     display: 'flex',
+    flex:1,
+    paddingHorizontal: '8%',
     flexDirection: 'column',
     justifyContent: 'center',
-    flex:1,
-    fontFamily: 'Poppins_400Regular'
   },
   welContainer: {
     display: 'flex',

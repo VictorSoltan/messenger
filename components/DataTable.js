@@ -37,7 +37,7 @@ export default function DataTable(props) {
   const rowArray = (e) => {
     return [...Array(e.length).keys()].map((index) => {
       return(
-        <View key={index} style={{width: 'auto'}}>
+        <View key={index} style={{width: 'auto', paddingBottom: '1%'}}>
           {rowTable(e[index])}
         </View>            
     )})

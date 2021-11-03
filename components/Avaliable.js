@@ -13,6 +13,10 @@ export default function Avaliable({ navigation }) {
 
   let [member, setMember] = useState(false);
 
+  const loadScene = () => {
+    navigation.navigate('Calendar')
+  }
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -29,14 +33,14 @@ export default function Avaliable({ navigation }) {
         </View>    
         {[...Array(6).keys()].map((index) => {
           return(
-            <View key={index} style={[index===0 ? {marginTop: '6%'} : null, {display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor: '#FFFFE8', padding: '5%'}]}>
+            <TouchableOpacity key={index} style={[index===0 ? {marginTop: '6%'} : null, {display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor: '#FFFFE8', padding: '5%'}]} onPress={loadScene} >
               <Text style={{marginLeft: '12%', fontFamily: 'Poppins_500Medium', fontSize: 23}}>ShaMsiDDin</Text>
               <Text style={{marginLeft: '4%', fontFamily: 'Poppins_500Medium', fontSize: 17, color: '#8A8A8A'}}>Kiev</Text>
-            </View>
+            </TouchableOpacity>
           )  
         })}
         <View style={{position: 'absolute', bottom: '4%', width: '88%'}}>
-          <BlueButton title='Home'/>        
+          <BlueButton title='Home' link="Welcome"/>        
         </View>        
       </View>
     )

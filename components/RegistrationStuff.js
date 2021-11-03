@@ -41,6 +41,8 @@ export default function DateEvents({ navigate }) {
     !password ? setPassCheck(true) : setPassCheck(false)
     password !== passwordRepeat ? setPassRepeatCheck(true) :!passwordRepeat? setPassRepeatCheck(true) : setPassRepeatCheck(false)
   }
+  
+  let [employer, setEmployer] = useState(true)
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -104,12 +106,12 @@ export default function DateEvents({ navigate }) {
             </TouchableOpacity>
           </View>          
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '98%', marginTop: '3%'}}>     
-            <TouchableOpacity style={[styles.twoButtons, styles.stuff]} >
-              <Text style={{fontFamily: 'Poppins_500Medium', fontSize: 16, color: '#000000'}}>STAFF</Text>
+            <TouchableOpacity style={[styles.twoButtons, employer ? {backgroundColor: '#FFFFE8'} : null]} onPress={() => setEmployer(true)}>
+              <Text style={[{fontFamily: 'Poppins_500Medium', fontSize: 16, color: '#000000'}, {color: '#222222'}]}>STAFF</Text>
             </TouchableOpacity>  
-            <TouchableOpacity style={[styles.twoButtons, styles.manager]} >
-              <Text style={{fontFamily: 'Poppins_500Medium', fontSize: 16, color: '#000000'}}>MANAGER</Text>
-            </TouchableOpacity>                          
+            <TouchableOpacity style={[styles.twoButtons, !employer ? {backgroundColor: '#E8F4FF'} : null]} onPress={() => setEmployer(false)}>
+              <Text style={[{fontFamily: 'Poppins_500Medium', fontSize: 16, color: '#000000'}, {color: '#222222'}]}>MANAGER</Text>
+            </TouchableOpacity>                                 
           </View>     
         </View>
         <View style={{width: '100%', marginTop: '20%'}}>
@@ -179,7 +181,8 @@ const styles = StyleSheet.create({
     padding: '3%',
     width: '45%',
     borderRadius: 16,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#979797'
   },  
   stuff: {
     backgroundColor: '#FFFFE8'
