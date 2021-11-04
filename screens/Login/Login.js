@@ -3,9 +3,9 @@ import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Poppins_400Regular, Poppins_700Bold} from '@expo-google-fonts/poppins';
-import Eye from  '../assets/fa-solid_eye.svg'
-import HiddenEye from  '../assets/hiddenEye.svg'
-import BlueButton from "../components/BlueButton";
+import Eye from  '../../assets/fa-solid_eye.svg'
+import HiddenEye from  '../../assets/hiddenEye.svg'
+import BlueButton from "../../components/BlueButton";
 
 function Login(props) {
   let [fontsLoaded] = useFonts({
@@ -50,14 +50,14 @@ function Login(props) {
             />
             <TouchableOpacity style={{position: 'absolute', right: '12%'}} onPress={() => setPassHide(!passHide)}>
               {passHide ? 
-                <Eye style={{width: '22px', height: '16px'}} /> 
+                <Eye style={{width: 22, height: 16}} /> 
                 :
-                <HiddenEye style={{width: '22px', height: '16px'}} /> 
+                <HiddenEye style={{width: 22, height: 16}} /> 
               }
             </TouchableOpacity>
           </View>
           <View style={{marginTop: '8.4%', width: '84%', alignItems: 'center'}}>
-            <BlueButton func={LoginCheck} title="Enter" link="Welcome"/>
+            <BlueButton isValid={true} func={LoginCheck} title="Enter" link="Welcome"/>
             <View style={{marginTop: '5%', width: '100%'}}>
               <BlueButton title="Register" link="Registration"/>
             </View>           

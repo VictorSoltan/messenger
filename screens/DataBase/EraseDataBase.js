@@ -3,8 +3,8 @@ import AppLoading from 'expo-app-loading';
 import { Dimensions, StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
-import DataTable from "../components/DataTable";
-import BlueButton from "../components/BlueButton";
+import DataTable from "../../components/DataTable";
+import BlueButton from "../../components/BlueButton";
 
 export default function DataBase({ route }) {
   let [fontsLoaded] = useFonts({
@@ -80,7 +80,7 @@ export default function DataBase({ route }) {
           </View>
 
         </View>  
-        <View style={{position: 'absolute', bottom: '2%', width: '86%'}}>
+        <View style={styles.bottomButton}>
           <BlueButton title="Erase" link="DataBase"/>
         </View>  
       </View>   
@@ -109,7 +109,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#112B66',
     width: '88%',
     height: '90%',
-    borderRadius: 4,
-    // paddingTop: '20%'
-  }    
+    borderRadius: 4
+  },    
+  bottomButton: {
+    position: 'absolute', 
+    bottom: '2%', 
+    width: '86%'
+  }
 })

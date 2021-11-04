@@ -3,10 +3,10 @@ import AppLoading from 'expo-app-loading';
 import { Dimensions, StyleSheet, Text, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
-import Pencil from '../assets/pencil.svg'
+import Pencil from '../../assets/pencil.svg'
 
-import DataTable from "../components/DataTable";
-import BlueButton from "../components/BlueButton";
+import DataTable from "../../components/DataTable";
+import BlueButton from "../../components/BlueButton";
 
 export default function DataBase() {
   let [fontsLoaded] = useFonts({
@@ -83,15 +83,15 @@ export default function DataBase() {
                   <Text style={[index===0 ? {marginTop: windowHeight*0.062} : {marginTop: windowHeight*0.01}, {fontFamily: 'Poppins_700Bold', fontSize: 20}]}>{item.title}</Text>
                   <View style={{width: '100%'}}>
                     <ScrollView horizontal={true} style={{width: "100%", marginTop: 0}}>
-                      <View style={{display: 'flex', flexDirection:'row', justifyContent: 'center', alignItems: 'center', width: "auto", paddingLeft: 40}}>
+                      <View onStartShouldSetResponder={() => true} style={{display: 'flex', flexDirection:'row', justifyContent: 'center', alignItems: 'center', width: "auto", paddingLeft: 40}}>
                         <DataTable edit={false} DataTableBase={item.base} />
                       </View>          
                     </ScrollView>
                   </View>       
                   <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: windowHeight*0.0014, width: '88%'}}> 
-                    <TouchableOpacity style={[styles.button, {padding: windowHeight*0.01}]} >
-                      <Text style={[styles.buttonText, {color: 'white'}]}>Download</Text>
-                    </TouchableOpacity>    
+                      <View style={{width: '84%'}}>
+                        <BlueButton title="Download"/>
+                      </View>
                     <TouchableOpacity onPress={() => toggleEditor(item.title, index)}>
                       <View style={[styles.contact, {padding: windowHeight*0.02}]}>
                         <Pencil style={styles.icon}/>             
@@ -101,8 +101,8 @@ export default function DataBase() {
                 </View>
             )})}           
             {openEditior?
-              <View style={{position: 'absolute', bottom: 0, alignItems: 'center', width: '100%', paddingHorizontal: '5%', paddingBottom: '4%', backgroundColor: '#F5F5F5'}}>
-                <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 20, marginTop: '7%'}} >Edit {editTitle}</Text>
+              <View style={styles.bottomButton}>
+                <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 20, marginTop: '7%'}}>Edit {editTitle}</Text>
                 {editButton.map((item, index) => {
                   return(
                     <View key={index} style={{marginTop: '5%', width: '100%'}}>
@@ -136,17 +136,14 @@ const styles = StyleSheet.create({
   icon: {
     width: 14, 
     height: 14,
-  },
-  button: {
-    backgroundColor: '#112B66',
-    padding: '2%',
-    width: '84%',
-    borderRadius: 100,
-    alignItems: 'center'
-  },
-  buttonText: {
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '500',
-    fontSize: 20,
-  }    
+  },  
+  bottomButton: {
+    position: 'absolute', 
+    bottom: 0, 
+    alignItems: 'center', 
+    width: '100%', 
+    paddingHorizontal: '5%', 
+    paddingBottom: '4%', 
+    backgroundColor: '#F5F5F5'
+  } 
 })

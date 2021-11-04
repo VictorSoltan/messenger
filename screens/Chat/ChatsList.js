@@ -3,9 +3,9 @@ import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 import ChatDiv from './ChatDiv'
-import Search from '../assets/search.svg'
-import Contact from '../assets/contact.svg'
-import BlueButton from "./BlueButton";
+import Search from '../../assets/search.svg'
+import Contact from '../../assets/contact.svg'
+import BlueButton from "../../components/BlueButton";
 
 export default function ChatsList() {
   let [fontsLoaded] = useFonts({
@@ -31,36 +31,34 @@ export default function ChatsList() {
   } else {
   return(
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss} accessible={false}>
-
-    <View style={styles.chats}>
-      <View style={[styles.search, {marginTop: '6%'}]}>
-      {!broadcast ?
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-              <Search style={{position: 'absolute', width: 13, height: 13, marginRight: '4%'}}/>          
-              <TextInput
-                style={styles.input}
-                onChangeText={searchChat}
-                value={search}
-                placeholder="Search"
-              />
-
+      <View style={styles.chats}>
+        <View style={[styles.search]}>
+        {!broadcast ?
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            <Search style={styles.searchIcon}/>          
+            <TextInput
+              style={styles.input}
+              onChangeText={searchChat}
+              value={search}
+              placeholder="Search"
+            />
+          </View>
+            : null}
+            <TouchableOpacity style={[styles.contact, broadcast ? {width: '88%'} : null]} onPress={() => setBroadcast(!broadcast)}>
+            {!broadcast ?
+            <Contact style={{width: 23, height: 23}}/>
+            : <Text style={{fontFamily: 'Poppins_500Medium', fontSize: 20, color: '#F5F5F5'}}>New Broadcast</Text>}
+            </TouchableOpacity>
         </View>
-          : null}
-          <TouchableOpacity style={[styles.contact, broadcast ? {width: '88%'} : null]} onPress={() => setBroadcast(!broadcast)}>
-          {!broadcast ?
-          <Contact style={{width: 23, height: 23}}/>
-          : <Text style={{fontFamily: 'Poppins_500Medium', fontSize: 20, color: '#F5F5F5'}}>New Broadcast</Text>}
-          </TouchableOpacity>
-      </View>
-      <ScrollView style={[broadcast ? {marginTop: '6%'} : {marginTop: '2%'}, {height: '72%', width: '100%'}]}> 
-        <ChatDiv broadcast={broadcast} setChatDivs={setChatDivs} chatDivs={chatDivs}/>
-      </ScrollView> 
-      <View style={{position: 'absolute', width: '90%', bottom: '3%'}}>
-        <BlueButton title="Home" link="Welcome"/>            
-      </View>
-    </View>    
+        <ScrollView style={[styles.scroll, broadcast ? {marginTop: '6%'} : {marginTop: '2%'}]}> 
+          <ChatDiv broadcast={broadcast} setChatDivs={setChatDivs} chatDivs={chatDivs}/>
+        </ScrollView> 
+        <View style={styles.bottomButton}>
+          <BlueButton title="Home" link="Welcome"/>            
+        </View>
+      </View>    
     </TouchableWithoutFeedback>
-  )}
+  )}  
 }
 
 const styles = StyleSheet.create({
@@ -68,7 +66,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    marginTop: '8%'
   },
   chat: {
     display: 'flex',
@@ -112,6 +111,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: '5%'
   },
+  searchIcon: {
+    position: 'absolute', 
+    width: 13, 
+    height: 13, 
+    marginRight: '4%'
+  },
   input: {
     width: '84%',
     margin: 12,
@@ -130,5 +135,14 @@ const styles = StyleSheet.create({
     borderRadius: 190,
     marginLeft: '-2%',
     padding: '3%',
+  },
+  scroll: {
+    maxHeight: '80%', 
+    width: '100%'
+  },
+  bottomButton: {
+    position: 'absolute', 
+    width: '90%', 
+    bottom: '3%'
   }
 })

@@ -3,9 +3,9 @@ import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 
-import ArrowLeft from '../assets/arrow-left.svg'
-import SelectTrue from '../assets/selectTrue.svg'
-import BlueButton from "../components/BlueButton";
+import ArrowLeft from '../../assets/arrow-left.svg'
+import SelectTrue from '../../assets/selectTrue.svg'
+import BlueButton from "../../components/BlueButton";
 
 export default function Broadcasts({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -42,20 +42,20 @@ export default function Broadcasts({ navigation }) {
     return(
       <View style={[styles.broadcasts]}>  
         <View style={styles.chatHeader}>
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
+          <View style={styles.header}>
             <TouchableOpacity style={styles.contact} onPress={() => navigation.goBack()}>
-              <ArrowLeft style={{width: 14, height: 10}}/>             
+              <ArrowLeft style={styles.arrow}/>             
             </TouchableOpacity>     
-            <TouchableOpacity style={styles.button} >
-              <Text style={[styles.buttonText, {color: 'white'}]}>Save Broadcast</Text>
-            </TouchableOpacity>    
+            <View style={styles.button}>
+              <BlueButton title="Save Broadcast" link="ChatList" />
+            </View>
           </View>
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '88%', marginTop: '4%'}}>     
+          <View style={styles.twoButtonsDiv}>     
             <TouchableOpacity style={[styles.twoButtons, employer ? {backgroundColor: '#FFFFE8'} : null]} onPress={() => setEmployer(true)}>
-              <Text style={[styles.buttonText, {color: '#222222'}]}>STAFF</Text>
+              <Text style={[styles.buttonText]}>STAFF</Text>
             </TouchableOpacity>  
             <TouchableOpacity style={[styles.twoButtons, !employer ? {backgroundColor: '#E8F4FF'} : null]} onPress={() => setEmployer(false)}>
-              <Text style={[styles.buttonText, {color: '#222222'}]}>CLIENTS</Text>
+              <Text style={[styles.buttonText]}>CLIENTS</Text>
             </TouchableOpacity>                          
           </View>     
         </View>     
@@ -84,7 +84,7 @@ export default function Broadcasts({ navigation }) {
           )})}
         </ScrollView>
         </View>         
-        <View style={{position: 'absolute', bottom: '2%', width: '84%'}}>
+        <View style={styles.buttonBottom}>
           <BlueButton title='Save'/>        
         </View>              
       </View>
@@ -106,14 +106,29 @@ const styles = StyleSheet.create({
     marginTop: '8%',
     padding: '3%',
   },
+  header: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between', 
+    width: '100%'
+  },
   contact: {
     backgroundColor: 'white',
     borderRadius: 190,
-    padding: '5%',
+    padding: '4.4%',
   },
   arrow: {
     width: 14, 
     height: 14,
+  },
+  twoButtonsDiv: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between', 
+    width: '88%', 
+    marginTop: '4%'
   },
   twoButtons: {
     marginTop: 0,
@@ -166,14 +181,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9'
   },  
   button: {
-    backgroundColor: '#112B66',
-    padding: '3.2%',
     width: '84%',
-    borderRadius: 100,
-    alignItems: 'center'
   },
   buttonText: {
     fontFamily: 'Poppins_500Medium',
     fontSize: 20,
+    color: '#222222'
+  },
+  buttonBottom: {
+    position: 'absolute', 
+    bottom: '2%', 
+    width: '84%'
   }
 })

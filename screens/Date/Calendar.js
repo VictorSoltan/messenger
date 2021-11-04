@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
-import Left from '../assets/left.svg'
-import Right from '../assets/right.svg'
+import Left from '../../assets/left.svg'
+import Right from '../../assets/right.svg'
 
-import BlueButton from "../components/BlueButton";
+import BlueButton from "../../components/BlueButton";
 
 export default function DateEvents({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -29,7 +29,6 @@ export default function DateEvents({ navigation }) {
   function daysInMonth (month, year) {
     return new Date(year, month, 0).getDate();
   }
-
   const months = [ 'January', 'February', 
     'March', 'April', 'May', 
     'June', 'July', 'August', 
@@ -57,27 +56,27 @@ export default function DateEvents({ navigation }) {
     setMonthSeted(false)
   }
 
-    function goBack() {
-      lastMonth===0 ? setLastMonth(11) : setLastMonth(lastMonth-1)
-      if(currentMonth===0){
-        setCurrentMonth(11)
-        setCurrentYear(currentYear-1)
-      }else{
-        setCurrentMonth(currentMonth-1)
-      }
-      nextMonth===0 ? setNextMonth(11) : setNextMonth(nextMonth-1)
+  function goBack() {
+    lastMonth===0 ? setLastMonth(11) : setLastMonth(lastMonth-1)
+    if(currentMonth===0){
+      setCurrentMonth(11)
+      setCurrentYear(currentYear-1)
+    }else{
+      setCurrentMonth(currentMonth-1)
     }
+    nextMonth===0 ? setNextMonth(11) : setNextMonth(nextMonth-1)
+  }
 
-    function goForward() {
-      lastMonth===11 ? setLastMonth(0) : setLastMonth(lastMonth+1)
-      if(currentMonth===11){
-        setCurrentMonth(0)
-        setCurrentYear(currentYear+1)
-      }else{
-        setCurrentMonth(currentMonth+1)
-      }
-      nextMonth===11 ? setNextMonth(0) : setNextMonth(nextMonth+1)
+  function goForward() {
+    lastMonth===11 ? setLastMonth(0) : setLastMonth(lastMonth+1)
+    if(currentMonth===11){
+      setCurrentMonth(0)
+      setCurrentYear(currentYear+1)
+    }else{
+      setCurrentMonth(currentMonth+1)
     }
+    nextMonth===11 ? setNextMonth(0) : setNextMonth(nextMonth+1)
+  }
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -89,12 +88,12 @@ export default function DateEvents({ navigation }) {
           <Text style={{marginBottom: 3, marginLeft: '3%', fontFamily: 'Poppins_500Medium', fontSize: 17, color: '#8A8A8A'}}>Kiev</Text>
         </View>    
         <View style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', width: "100%", marginTop: '3%', paddingHorizontal: '20%'}}>
-          <TouchableOpacity style={{padding: '4%'}} onPress={goBack}>
-            <Left style={{width: 30, height: 40}}/>
+          <TouchableOpacity style={{paddingVertical: '6%', paddingRight: '6%', paddingLeft: '6%'}} onPress={goBack}>
+            <Left style={{width: 40, height: 80}}/>
           </TouchableOpacity>
               <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 24}}>{months[currentMonth]} {currentYear}</Text>
-          <TouchableOpacity style={{padding: '4%'}} onPress={goForward}>
-            <Right style={{width: 30, height: 40}}/>
+          <TouchableOpacity style={{paddingVertical: '6%', paddingLeft: '6%', paddingRight: '6%'}} onPress={goForward}>
+            <Right style={{width: 40, height: 60}}/>
           </TouchableOpacity>
         </View>     
         <ScrollView style={{width: '100%'}}>
@@ -109,16 +108,16 @@ export default function DateEvents({ navigation }) {
           </View>
           <View style={{display: 'flex', flexWrap: 'wrap', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', marginTop: windowHeight*0.013, paddingHorizontal: windowWidth*0.075}}>
             {
-              [...Array(daysInMonth(lastMonth+1, today.getFullYear())).keys()].slice(-14).concat(
+              [...Array(daysInMonth(lastMonth+1, today.getFullYear())).keys()].slice(-7+(1-(new Date(currentYear, currentMonth, 1).getDay()))).concat(
                 [...Array(daysInMonth(currentMonth+1, today.getFullYear())).keys()].concat(
-                  [...Array(daysInMonth(nextMonth+1, today.getFullYear())).keys()].slice(0, 14+(7-daysInMonth(currentMonth+1, today.getFullYear())%7)))
+                  [...Array(daysInMonth(nextMonth+1, today.getFullYear())).keys()].slice(0, 14+7-(new Date(currentYear, currentMonth, daysInMonth(currentMonth+1, today.getFullYear())).getDay())  ))
               ).map((item, index) => {
               return(
-                <TouchableOpacity onPress={loadScene} key={index} style={[styles.cell, item+14===index ?
+                <TouchableOpacity onPress={loadScene} key={index} style={[styles.cell, item+7+(-1+(new Date(currentYear, currentMonth, 1).getDay()))===index ?
                   {backgroundColor: 'white', borderColor: '#112b66' } :
                   {borderColor: '#919db6', }, {paddingVertical: windowHeight*0.018} 
                 ]}>
-                  <Text style={[item+14===index ? {color: '#000000'} : {color: '#b8b8b8'}, {fontSize: 16, fontFamily: 'Poppins_700Bold'}]} key={index}>{item+1}</Text>
+                  <Text style={[item+7+(-1+(new Date(currentYear, currentMonth, 1).getDay()))===index ? {color: '#000000'} : {color: '#b8b8b8'}, {fontSize: 16, fontFamily: 'Poppins_700Bold'}]} key={index}>{item+1}</Text>
                 </TouchableOpacity>
               )
             })}      

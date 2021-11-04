@@ -3,9 +3,9 @@ import AppLoading from 'expo-app-loading';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Animated, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
-import Green from '../assets/green.svg'
-import Sound from '../assets/sound.svg'
-import Edit from '../assets/clarity_note-edit-line.svg'
+import Green from '../../assets/green.svg'
+import Sound from '../../assets/sound.svg'
+import Edit from '../../assets/clarity_note-edit-line.svg'
 
 export default function ChatsDiv(props) {
   let [fontsLoaded] = useFonts({
@@ -45,9 +45,9 @@ export default function ChatsDiv(props) {
                       : null}
                     </Text>
                     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 2, justifyContent: 'space-between', width: 20, marginHorizontal: 4}}>
-                      <View style={{width: 2, height: 2, borderRadius: 40, backgroundColor: '#70AAEA'}}></View>
-                      <View style={{width: 4, height: 4, borderRadius: 40, backgroundColor: '#70AAEA'}}></View>
-                      <View style={{width: 6, height: 6, borderRadius: 40, backgroundColor: '#70AAEA'}}></View>
+                      <View style={[styles.dot, {width: 2, height: 2}]}></View>
+                      <View style={[styles.dot, {width: 4, height: 4}]}></View>
+                      <View style={[styles.dot, {width: 6, height: 6}]}></View>
                     </View>                    
                     <Text style={{color: '#70AAEA', fontSize: 14}}>typing...</Text>
                   </View>
@@ -77,7 +77,7 @@ export default function ChatsDiv(props) {
                 </TouchableOpacity>
               </>
             : null}
-            {item.groupChatMembs&&item.showMembs ?
+            {item.groupChatMembs&&item.showMembs&&!props.broadcast ?
               <>
                 <View style={{marginTop: '0.8%', width: '100%'}}>
                 <View style={{position: 'absolute', top: 10, alignSelf: 'center', height: 1, width: '80%', backgroundColor: '#D9D9D9'}}/>
@@ -110,6 +110,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8F4FF',
     width: '100%',
     padding: '3%',
+  },
+  dot: {
+    borderRadius: 40, 
+    backgroundColor: '#70AAEA'
   },
   chatLine: {
     position: 'absolute',

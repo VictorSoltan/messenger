@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import AppLoading from 'expo-app-loading';
-import { Pressable, StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, SafeAreaView, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Animated, StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, SafeAreaView, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold} from '@expo-google-fonts/poppins';
 
-import ArrowLeft from '../assets/arrow-left.svg'
-import ArrowUp from '../assets/arrow_up.svg'
+import ArrowLeft from '../../assets/arrow-left.svg'
+import ArrowUp from '../../assets/arrow_up.svg'
 
 export default function Chat({ route, navigation }) {
   let [fontsLoaded] = useFonts({
@@ -53,17 +53,17 @@ export default function Chat({ route, navigation }) {
     <TouchableWithoutFeedback onPress={!isKeyboardVisible ? () => Keyboard.dismiss : scrollArea.scrollToEnd({ animated: true })} accessible={false}>
       <View style={styles.chat}>
         {notification ? 
-          <View style={[styles.notification, {position: 'absolute', justifyContent: 'flex-start', alignItems: 'center'}]}>
+          <View style={styles.notification}>
             <View style={{flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center'}}>
               <Text style={{color: '#112B66', fontSize: 16, fontFamily: 'Poppins_500Medium'}}>CALENDAR UPDATE</Text>
-              <View style={{margin: 4, marginLeft: '1.4%', marginBottom: '1%', borderRadius: 160, width: 5, height: 5, backgroundColor: '#C4C4C4'}} />
-              <Text style={{marginBottom: '0.5%', color: '#979797', justifyContent: 'center', alignItems: 'center', fontFamily: 'Poppins_600SemiBold'}}>5 minutes ago</Text>
+              <View style={styles.notificationDot} />
+              <Text style={styles.minutesPast}>5 minutes ago</Text>
             </View>
             <Text style={{alignSelf: 'flex-start', fontFamily: 'Poppins_500Medium', fontSize: 18}}>New Message</Text>
           </View>             
         :null}
         <View style={[styles.chatHeader]}>
-          <View style={[!route.params ? {justifyContent: 'center',} : {justifyContent: 'space-between',}, { display: 'flex', flexDirection: 'row', alignItems: 'center', width: '96%'}]}>
+          <View style={[styles.header, !route.params ? {justifyContent: 'center'} : {justifyContent: 'space-between'}]}>
             {route.params ? 
               <TouchableOpacity style={styles.contact} onPress={() => navigation.goBack()}>
                 <ArrowLeft style={styles.arrow}/>             
@@ -78,7 +78,7 @@ export default function Chat({ route, navigation }) {
             </TouchableOpacity>    
           </View>
         </View>
-        <View style={styles.container}>
+        <Animated.View style={[styles.container, {maxHeight: isKeyboardVisible ? '54%' : '67%'}]}>
         <ScrollView ref={ref => setScrollArea(ref)}
           onContentSizeChange={() => scrollArea.scrollToEnd({ animated: true })}>
           {chatMessaged.map((item, index) => (
@@ -93,7 +93,7 @@ export default function Chat({ route, navigation }) {
               </View>
           ))}
           </ScrollView>    
-        </View>
+        </Animated.View>
         <View style={styles.messageInput}>
           <TextInput
             style={styles.input}
@@ -119,14 +119,32 @@ const styles = StyleSheet.create({
     flex: 1
   },
   notification: {
+    position: 'absolute', 
+    justifyContent: 'flex-start', 
+    alignItems: 'center',
     top: '5%',
-    justifyContent: 'flex-start',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     width: '95%',
     paddingVertical: '1%',
     padding: '4%',
     zIndex: 9999
+  },
+  notificationDot: {
+    margin: 4, 
+    marginLeft: '1.4%', 
+    marginBottom: '1%', 
+    borderRadius: 160, 
+    width: 5, 
+    height: 5, 
+    backgroundColor: '#C4C4C4'
+  },
+  minutesPast: {
+    marginBottom: '0.5%', 
+    color: '#979797', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    fontFamily: 'Poppins_600SemiBold'
   },
   chatHeader: {
     display: 'flex',
@@ -135,6 +153,12 @@ const styles = StyleSheet.create({
     marginTop: '11%',
     padding: '3%',
     paddingBottom: '6%'
+  },
+  header: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    width: '96%'
   },
   contact: {
     backgroundColor: 'white',
@@ -160,8 +184,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: '2%',
     paddingBottom: StatusBar.currentHeight,
-    width: '100%',
-    maxHeight: '62%'
+    width: '100%'
   },  
   message: {
     borderRadius: 10,
@@ -197,8 +220,9 @@ const styles = StyleSheet.create({
     borderTopColor: 'white',
   },
   messageInput: {
+    position: 'absolute',
     width: '100%',
-    marginTop: '6%',
+    bottom: '4%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

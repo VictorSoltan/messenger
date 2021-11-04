@@ -2,21 +2,25 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-import Login from "../components/Login";
-import Welcome from "../components/Welcome";
-import ChatsList from "../components/ChatsList";
-import Chat from "../components/Chat";
-import Broadcasts from "../components/Broadcasts";
-import DataBase from "../components/DataBase";
-import EditDataBase from "../components/EditDataBase";
-import EraseDataBase from "../components/EraseDataBase";
-import DateEvents from "../components/DateEvents";
-import Calendar from "../components/Calendar";
-import Registration from "../components/Registration";
-import RegistrationStuff from "../components/RegistrationStuff";
-import AddBooking from "../components/AddBooking";
-import AllDateEvents from "../components/AllDateEvents";
-import Avaliable from "../components/Avaliable";
+import Welcome from "../screens/Welcome";
+
+import Login from "../screens/Login/Login";
+import Registration from "../screens/Login/Registration";
+import RegistrationStuff from "../screens/Login/RegistrationStuff";
+
+import ChatsList from "../screens/Chat/ChatsList";
+import Chat from "../screens/Chat/Chat";
+import Broadcasts from "../screens/Chat/Broadcasts";
+
+import DataBase from "../screens/DataBase/DataBase";
+import EditDataBase from "../screens/DataBase/EditDataBase";
+import EraseDataBase from "../screens/DataBase/EraseDataBase";
+import AddBooking from "../screens/DataBase/AddBooking";
+
+import DateEvents from "../screens/Date/DateEvents";
+import Calendar from "../screens/Date/Calendar";
+import AllDateEvents from "../screens/Date/AllDateEvents";
+import Avaliable from "../screens/Date/Avaliable";
 
 const Stack = createStackNavigator()
 

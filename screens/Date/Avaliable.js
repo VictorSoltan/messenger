@@ -3,7 +3,7 @@ import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
-import BlueButton from "../components/BlueButton";
+import BlueButton from "../../components/BlueButton";
 
 export default function Avaliable({ navigation }) {
   let [fontsLoaded] = useFonts({
@@ -39,8 +39,8 @@ export default function Avaliable({ navigation }) {
             </TouchableOpacity>
           )  
         })}
-        <View style={{position: 'absolute', bottom: '4%', width: '88%'}}>
-          <BlueButton title='Home' link="Welcome"/>        
+        <View style={styles.bottomButton}>
+          <BlueButton title={!member ? "Home" : "Chat with manager"} link={!member ? "Welcome" : "Chat"} />        
         </View>        
       </View>
     )
@@ -60,5 +60,10 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '90%',
     borderRadius: 4
+  },
+  bottomButton: {
+    position: 'absolute', 
+    bottom: '4%', 
+    width: '88%'
   }    
 })

@@ -3,8 +3,8 @@ import AppLoading from 'expo-app-loading';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
-import DataTable from "../components/DataTable";
-import BlueButton from "../components/BlueButton";
+import DataTable from "../../components/DataTable";
+import BlueButton from "../../components/BlueButton";
 
 export default function DataBase({ route }) {
   let [fontsLoaded] = useFonts({
@@ -26,7 +26,7 @@ export default function DataBase({ route }) {
               </View>          
             </ScrollView>
           </View>     
-          <View style={{position: 'absolute', bottom: '2%', width: '86%'}}>
+          <View style={styles.buttonBottom}>
             <BlueButton title="Save" link="DataBase"/>
           </View>  
         </View>   
@@ -58,5 +58,10 @@ const styles = StyleSheet.create({
     borderRadius: 190,
     padding: '4%',
     paddingVertical: '30%'
+  },
+  buttonBottom: {
+    position: 'absolute', 
+    bottom: '2%', 
+    width: '86%'
   }
 })

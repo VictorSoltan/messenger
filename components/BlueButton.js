@@ -24,7 +24,8 @@ export default function BlueButton(props) {
   
   function checkPropsFunc(){
     if(props.func){
-      if(!props.func()){
+      props.func()
+      if(props.isValid){
         loadScene()
       }
     }else{
