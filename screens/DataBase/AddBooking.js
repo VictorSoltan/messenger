@@ -20,7 +20,6 @@ export default function DateEvents() {
       <Formik
         initialValues={{ 
           date: '', time: '', dutan: '', name: '', mobileNumber: '' }}
-        validationSchema={validationSchema}
         onSubmit={() => setValid(!valid)}>
         {({ handleChange, handleSubmit, isValid, dirty, values })  => (     
           <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

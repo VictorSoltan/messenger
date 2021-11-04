@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    padding: '3.2%',
+    paddingVertical: '3.2%',
     width: '49.8%'
   },
   buttonBottom: {
