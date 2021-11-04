@@ -14,9 +14,11 @@ function Login(props) {
   });
   const LoginCheck = () => {
     if(mail==='admin'){
-      props.adminEnter()
+      props.admin()
+    }else if(mail==='manager'){
+      props.manager()
     }else{
-      props.userEnter()
+      props.user()
     }
   }
 
@@ -68,14 +70,15 @@ function Login(props) {
 }
 function mapStateToProps(state){
   return {
-    admin: state.admin
+    user: state.user
   }
 }
 
 function mapDispatchToProps(dispatch){
   return{
-    adminEnter: () => dispatch({ type: 'ADMIN_ENTER'}),
-    userEnter: () => dispatch({ type: 'USER_ENTER'})
+    admin: () => dispatch({ type: 'ADMIN'}),
+    manager: () => dispatch({ type: 'MANAGER'}),
+    user: () => dispatch({ type: 'USER'})
   }
 }
 

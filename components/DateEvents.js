@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
-// import CalendarStrip from 'react-native-calendar-strip';
 import Left from '../assets/left.svg'
 import Right from '../assets/right.svg'
 
@@ -13,7 +12,18 @@ export default function DateEvents({ navigation }) {
     Poppins_400Regular,
     Poppins_500Medium, 
     Poppins_700Bold  }); 
-  
+
+  let windowHeight = Dimensions.get('window').height;
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener(
+      "change",
+      ({ window, screen }) => {
+        setDimensions({ window, screen });
+      }
+    );
+    return () => subscription?.remove();
+  });  
   const months = [ 'January', 'February', 
     'March', 'April', 'May', 
     'June', 'July', 'August', 
@@ -113,7 +123,6 @@ export default function DateEvents({ navigation }) {
       setNextMonth(nextMonth+1)
     }  
     }
-    // daysInMonth(currentMonth+1, currentYear)
     if(todaysDay === daysInMonth(currentMonth+1, currentYear)){
       setYesterday(daysInMonth(currentMonth+1, currentYear))
     }else if(todaysDay === 1){
@@ -122,19 +131,6 @@ export default function DateEvents({ navigation }) {
       setYesterday(yesterday+1)
     }
     tomorrow !== daysInCurrentMonth ? setTomorrow(tomorrow+1) : setTomorrow(1)
-  }
-
-  let [xState, setXState] = useState(0)
-
-  let [myScroll, setMyScroll] = useState(null)
-
-  function handleScroll(e) {
-    setXState(e.nativeEvent.contentOffset.x)
-    if(xState > 100){
-      // myScroll.scrollTo(0)
-
-      // setXState(0)
-    }
   }
 
   let dayEvents = [
@@ -154,30 +150,33 @@ export default function DateEvents({ navigation }) {
   } else {
     return(
       <View style={styles.container}>
-        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', backgroundColor: '#FFFFE8', padding: '5%'}}>
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', width: '100%', backgroundColor: '#FFFFE8', padding: windowHeight*0.028}}>
           <Text style={{marginLeft: '12%', fontFamily: 'Poppins_500Medium', fontSize: 23}}>ShaMsiDDin</Text>
-          <Text style={{marginLeft: '4%', fontFamily: 'Poppins_500Medium', fontSize: 17, color: '#8A8A8A'}}>Kiev</Text>
+          <Text style={{marginBottom: 3, marginLeft: '4%', fontFamily: 'Poppins_500Medium', fontSize: 17, color: '#8A8A8A'}}>Kiev</Text>
         </View>  
-        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'center', width: "100%", marginTop: '2%', paddingHorizontal: '20%'}}>
+        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'center', width: "100%", marginTop:  windowHeight*0.025, paddingHorizontal: '20%'}}>
           <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 24}}>{months[currentMonth]} {currentYear}</Text>
         </View>     
-        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', width: "100%", marginTop: '2%', marginBottom: '1%', paddingHorizontal: '28%'}}>
-          <TouchableOpacity onPress={goBack}>
-            <Left style={{width: 20, height: 30}}/>
+        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', width: "100%", marginTop: windowHeight*0.016, marginBottom: windowHeight*0.002, paddingHorizontal: '26%'}}>
+          <TouchableOpacity style={{paddingLeft: '4%'}} onPress={goBack}>
+            <Left style={{width: 30, height: 40}}/>
           </TouchableOpacity>
-          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginLeft: '6%'}]}>
-            <Text style={[{width: 20, textAlign: 'center', fontSize: 16}]}>{yesterday}</Text>
+          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginLeft: '0%'}]}>
+            <Text style={[{paddingVertical: windowHeight*0.007, width: 22, textAlign: 'center', fontSize: 16}]}>{yesterday}</Text>
           </View>
-          <View style={[styles.dateStyle, {backgroundColor: '#ffffff', borderColor: '#112b66', padding: '6%'}]}>
-            <Text style={[{paddingVertical: '4%', width: 26, textAlign: 'center', fontSize: 24}]}>{todaysDay}</Text>
+          <View style={[styles.dateStyle, {backgroundColor: '#ffffff', borderColor: '#112b66', padding: '4%'}]}>
+            <Text style={[{paddingVertical: windowHeight*0.01, width: 28, textAlign: 'center', fontSize: 24}]}>{todaysDay}</Text>
           </View>
-          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginRight: '6%'}]}>
-            <Text style={[{width: 20, textAlign: 'center', fontSize: 16}]}>{tomorrow}</Text>
+          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginRight: '0%'}]}>
+            <Text style={[{paddingVertical: windowHeight*0.007, width: 22, textAlign: 'center', fontSize: 16}]}>{tomorrow}</Text>
           </View>
-          <TouchableOpacity onPress={goForward}>
-            <Right style={{width: 20, height: 30}}/>
+          <TouchableOpacity style={{paddingRight: '4%'}} onPress={goForward}>
+            <Right style={{width: 30, height: 40}}/>
           </TouchableOpacity>
         </View>
+        <View style={{width: '100%', marginTop: '2%', maxHeight: windowHeight*0.57}}>            
+          <ScrollView style={{width: '100%'}}>
+            <View style={{justifyContent: 'space-between', alignItems: 'center'}}>
         { dayEvents.map((item, index) => {
           return(        
             <View key={index} style={styles.dayEvents}>
@@ -188,7 +187,10 @@ export default function DateEvents({ navigation }) {
             </View>
           )})
         }          
-        <View style={{marginTop: '5%', width: '88%'}}>
+            </View>
+         </ScrollView>
+        </View>        
+        <View style={{position: 'absolute', width: '90%', bottom: '3%'}}>
           <BlueButton title='CHAT WITH MANAGER' link="Chat"/>        
         </View>
       </View>
@@ -208,8 +210,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_700Bold',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '4%',
-    paddingVertical: '6%',
+    padding: '3%',
     borderWidth: 1,
     borderRadius: 6
   },      
@@ -218,14 +219,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '86%',
-    marginTop: '2%'
+    marginTop: '3%'
   },
   Event: {
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    padding: '2%',
+    padding: '2.3%',
     width: '70%'
   }
 })

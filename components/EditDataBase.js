@@ -27,7 +27,7 @@ export default function DataBase({ route }) {
             </ScrollView>
           </View>     
           <View style={{position: 'absolute', bottom: '2%', width: '86%'}}>
-            <BlueButton title="Save"/>
+            <BlueButton title="Save" link="DataBase"/>
           </View>  
         </View>   
       </TouchableWithoutFeedback>

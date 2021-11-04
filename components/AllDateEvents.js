@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
-// import CalendarStrip from 'react-native-calendar-strip';
 import Left from '../assets/left.svg'
 import Right from '../assets/right.svg'
 
@@ -13,7 +12,19 @@ export default function DateEvents({ navigate }) {
     Poppins_400Regular,
     Poppins_500Medium, 
     Poppins_700Bold  }); 
-  
+
+  let windowHeight = Dimensions.get('window').height;
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener(
+      "change",
+      ({ window, screen }) => {
+        setDimensions({ window, screen });
+      }
+    );
+    return () => subscription?.remove();
+  });
+    
   const months = [ 'January', 'February', 
     'March', 'April', 'May', 
     'June', 'July', 'August', 
@@ -136,52 +147,58 @@ export default function DateEvents({ navigate }) {
   } else {
     return(
       <View style={styles.container}>
-        <View style={{width: '88%'}}>
-          <BlueButton title='Home'/>        
+        <View style={{width: '88%', marginTop: windowHeight*0.03}}>
+          <BlueButton title='Home' link="Chat"/>        
         </View>
-        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'center', width: "100%", marginTop: '2%', paddingHorizontal: '20%'}}>
+        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'center', width: "100%", marginTop: windowHeight*0.025, paddingHorizontal: '20%'}}>
           <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 24}}>{months[currentMonth]} {currentYear}</Text>
         </View>     
-        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', width: "100%", marginTop: '2%', marginBottom: '1%', paddingHorizontal: '28%'}}>
-          <TouchableOpacity onPress={goBack}>
-            <Left style={{width: 20, height: 30}}/>
+        <View style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', width: "100%", marginTop: windowHeight*0.016, marginBottom: windowHeight*0.002, paddingHorizontal: '26%'}}>
+          <TouchableOpacity style={{paddingLeft: '4%'}} onPress={goBack}>
+            <Left style={{width: 30, height: 40}}/>
           </TouchableOpacity>
-          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginLeft: '6%'}]}>
-            <Text style={[{width: 20, textAlign: 'center', fontSize: 16}]}>{yesterday}</Text>
+          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginLeft: '0%'}]}>
+            <Text style={[{paddingVertical: windowHeight*0.007, width: 22, textAlign: 'center', fontSize: 16}]}>{yesterday}</Text>
           </View>
-          <View style={[styles.dateStyle, {backgroundColor: '#ffffff', borderColor: '#112b66', padding: '6%'}]}>
-            <Text style={[{paddingVertical: '4%', width: 26, textAlign: 'center', fontSize: 24}]}>{todaysDay}</Text>
+          <View style={[styles.dateStyle, {backgroundColor: '#ffffff', borderColor: '#112b66', padding: '4%'}]}>
+            <Text style={[{paddingVertical: windowHeight*0.01, width: 28, textAlign: 'center', fontSize: 24}]}>{todaysDay}</Text>
           </View>
-          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginRight: '6%'}]}>
-            <Text style={[{width: 20, textAlign: 'center', fontSize: 16}]}>{tomorrow}</Text>
+          <View style={[styles.dateStyle, {backgroundColor: '#fafafa', borderColor: '#8390ae', marginRight: '0%'}]}>
+            <Text style={[{paddingVertical: windowHeight*0.007, width: 22, textAlign: 'center', fontSize: 16}]}>{tomorrow}</Text>
           </View>
-          <TouchableOpacity onPress={goForward}>
-            <Right style={{width: 20, height: 30}}/>
+          <TouchableOpacity style={{paddingRight: '4%'}} onPress={goForward}>
+            <Right style={{width: 30, height: 40}}/>
           </TouchableOpacity>
         </View>
-        { dayEvents.map((item, index) => {
-          return(        
-            <View key={index} style={[styles.dayEvents, index===0 ? {marginBottom: '4%'} : null ]}>
-              <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 24}}>{item.time}</Text>
-              {item.double? 
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '62%'}}>
-                  <View style={[styles.Event, {width: '49.8%'}, item.avaliable === 0 ? {backgroundColor: '#03CC00'} : item.avaliable === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
-                    <Text style={[item.avaliable === 0 ? {color: 'white', fontSize: 16} : item.avaliable === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.title}</Text>
+        <View style={{width: '100%', marginTop: '2%', maxHeight: windowHeight*0.57}}>            
+          <ScrollView style={{width: '100%'}}>
+            <View style={{justifyContent: 'space-between', alignItems: 'center'}}>
+              {dayEvents.map((item, index) => {
+                return(        
+                  <View key={index} style={[styles.dayEvents, index===0 ? {marginBottom: '4%'} : null ]}>
+                    <Text style={{fontFamily: 'Poppins_700Bold', fontSize: 24}}>{item.time}</Text>
+                    {item.double? 
+                      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '62%'}}>
+                        <View style={[styles.Event, {width: '49.8%'}, item.avaliable === 0 ? {backgroundColor: '#03CC00'} : item.avaliable === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
+                          <Text style={[item.avaliable === 0 ? {color: 'white', fontSize: 16} : item.avaliable === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.title}</Text>
+                        </View>
+                        <View style={[styles.Event, {width: '49.8%'}, item.secondAvlbl === 0 ? {backgroundColor: '#03CC00'} : item.secondAvlbl === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
+                          <Text style={[item.secondAvlbl === 0 ? {color: 'white', fontSize: 16} : item.secondAvlbl === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.secondTitle}</Text>
+                        </View>                                
+                      </View>
+                    :
+                      <View style={[styles.Event, {width: '62%'}, item.avaliable === 0 ? {backgroundColor: '#03CC00'} : item.avaliable === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
+                        <Text style={[item.avaliable === 0 ? {color: 'white', fontSize: 16} : item.avaliable === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.title}</Text>
+                      </View>
+                    }
                   </View>
-                  <View style={[styles.Event, {width: '49.8%'}, item.secondAvlbl === 0 ? {backgroundColor: '#03CC00'} : item.secondAvlbl === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
-                    <Text style={[item.secondAvlbl === 0 ? {color: 'white', fontSize: 16} : item.secondAvlbl === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.secondTitle}</Text>
-                  </View>                                
-                </View>
-              :
-                <View style={[styles.Event, {width: '62%'}, item.avaliable === 0 ? {backgroundColor: '#03CC00'} : item.avaliable === 1 ? {backgroundColor: '#858585'} : {backgroundColor: '#E64646'}]}>
-                  <Text style={[item.avaliable === 0 ? {color: 'white', fontSize: 16} : item.avaliable === 1 ? {color: 'white', fontSize: 11} : {color: 'black', fontSize: 16}, {fontFamily: 'Poppins_700Bold'}]}>{item.title}</Text>
-                </View>
-              }
+                )})
+              }          
             </View>
-          )})
-        }          
-        <View style={{marginTop: '5%', width: '88%'}}>
-          <BlueButton title='Save'/>        
+         </ScrollView>
+        </View>
+        <View style={{position: 'absolute', width: '90%', bottom: '3%'}}>
+          <BlueButton title='Save' link="Welcome"/>        
         </View>
       </View>
     )
@@ -200,8 +217,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_700Bold',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '4%',
-    paddingVertical: '6%',
+    padding: '3%',
     borderWidth: 1,
     borderRadius: 6
   },      
@@ -210,14 +226,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '86%',
-    marginTop: '2%'
+    marginTop: '3%'
   },
   Event: {
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    padding: '2%',
+    padding: '3.2%',
     width: '70%'
   }
 })

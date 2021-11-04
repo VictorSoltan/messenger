@@ -6,15 +6,17 @@ import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 
 const initialState = {
-  admin: false
+  user: 'user'
 }
 
 const reducer = (state=initialState, action) => {
   switch(action.type){
-    case 'ADMIN_ENTER':
-      return {admin: state.admin = true}
-    case 'USER_ENTER':
-      return {admin: state.admin = false}      
+    case 'ADMIN':
+      return {user: state.user = 'admin'}
+    case 'MANAGER':
+      return {user: state.user = 'manager'}      
+    case 'USER':
+      return {user: state.user = 'user'}   
   }
   return state
 }

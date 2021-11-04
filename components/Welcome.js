@@ -10,16 +10,21 @@ function Welcome(props, { navigation }) {
     Poppins_400Regular
   });   
 
-  let managerData = [
+  let adminData = [
     {value: 'Chat', link: 'ChatsList'}, 
     {value: 'Check / Fill Calendar', link: 'Avaliable' }, 
     {value: 'DataBase', link: 'DataBase'}, 
     {value: 'Add Staff / Mrg', link: 'RegistrationStuff'}
   ]
-  let clientData = [
+  let managerData = [
+    {value: 'Chat with a manager', link: 'Chat'}, 
+    {value: 'Fill out availability calendar', link: 'AllDateEvents' }
+  ]
+  let userData = [
     {value: 'Chat with a manager', link: 'Chat'}, 
     {value: 'Staff availiability calendar', link: 'Avaliable' }
   ]
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -27,7 +32,7 @@ function Welcome(props, { navigation }) {
     <View style={styles.wel}>
       <View style={styles.welContainer}>
         <Text style={styles.welLogo}>WELCOME</Text>
-        {(props.admin ? managerData : clientData).map((item, index) => {
+        {(props.user === 'admin' ? adminData : props.user === 'manager' ? managerData : userData).map((item, index) => {
           return(
             <View key={index} style={{marginTop: '5%', width: '100%'}}>
               <BlueButton title={item.value} link={item.link}/>
@@ -41,7 +46,7 @@ function Welcome(props, { navigation }) {
 
 function mapStateToProps(state){
   return {
-    admin: state.admin
+    user: state.user
   }
 }
 

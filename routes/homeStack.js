@@ -49,7 +49,7 @@ export default function Navigate(){
                 name="Broadcasts"
                 component={Broadcasts}
                 options={{title: 'Broadcasts'}}
-            />                    
+            />                         
             <Stack.Screen 
                 name="DataBase"
                 component={DataBase}
@@ -64,23 +64,23 @@ export default function Navigate(){
                 name="EraseDataBase"
                 component={EraseDataBase}
                 options={{title: 'EraseDataBase'}}
-            />              
+            />    
             <Stack.Screen 
                 name="DateEvents"
                 component={DateEvents}
                 options={{title: 'DateEvents'}}
-            />       
-            <Stack.Screen 
+            />      
+             <Stack.Screen 
                 name="Calendar"
                 component={Calendar}
                 options={{title: 'Calendar'}}
-            />
+            /> 
             <Stack.Screen 
                 name="Registration"
                 component={Registration}
                 options={{title: 'Registration'}}
             />       
-            <Stack.Screen 
+             <Stack.Screen 
                 name="RegistrationStuff"
                 component={RegistrationStuff}
                 options={{title: 'RegistrationStuff'}}
@@ -95,7 +95,7 @@ export default function Navigate(){
                 component={AllDateEvents}
                 options={{title: 'AllDateEvents'}}
             />                               
-            <Stack.Screen 
+             <Stack.Screen 
                 name="Avaliable"
                 component={Avaliable}
                 options={{title: 'Avaliable'}}

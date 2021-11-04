@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
 import DataTable from "../components/DataTable";
@@ -14,6 +14,19 @@ export default function DataBase({ route }) {
 
   let [maximumArray, setMaximunArray] = useState(0)
 
+  let windowHeight = Dimensions.get('window').height;
+  let windowWidth = Dimensions.get('window').width;
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener(
+      "change",
+      ({ window, screen }) => {
+        setDimensions({ window, screen });
+      }
+    );
+    return () => subscription?.remove();
+  });
+  
   for(let x=0; x<route.params.base.length; x++){
     if(route.params.base[x].length > maximumArray){
       setMaximunArray(route.params.base[x].length)
@@ -33,7 +46,6 @@ export default function DataBase({ route }) {
       }
   }
 
-  console.log(eraseValues)
   const eraseSelected = (index) => {
     let newArr = [...eraseValues]; 
     eraseValues[index].selected = !eraseValues[index].selected;
@@ -47,11 +59,11 @@ export default function DataBase({ route }) {
       <View style={[styles.container]}>   
         <Text style={[{marginTop:'14%'}, {fontFamily: 'Poppins_700Bold', fontSize: 20}]}>{route.params.title}</Text>
         <View style={{width: '100%'}}>
-          <View style={{flexDirection: 'row', alignItems: 'center', height: '41%'}}>
-            <View style={{position: 'relative', top: '2%', left: '8%', width: '4%', justifyContent: 'space-between', height: '66%'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{position: 'relative', top: windowHeight*0.002 + 3, left: windowWidth*0.02, justifyContent: 'space-between', height: windowHeight*0.12}}>
               {eraseValues.map((item, index) => {
                 return(
-                  <TouchableOpacity key={index} style={{position: 'relative', top: '14%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 1, borderWidth: 1, borderColor: 'black', borderRadius: 4, width: '100%', height: '19%'}} onPress={() => eraseSelected(index)}>
+                  <TouchableOpacity key={index} style={{position: 'relative', marginTop: windowHeight*0.008 + 2, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 1, borderWidth: 1, borderColor: 'black', borderRadius: 4, width: windowHeight*0.009 + 14, height: windowHeight*0.009 + 14}} onPress={() => eraseSelected(index)}>
                     {item.selected ? 
                       <View style={styles.selected}/>  
                       : null
@@ -60,8 +72,8 @@ export default function DataBase({ route }) {
                 )
               })}
             </View>
-            <ScrollView horizontal={true} style={{position: 'relative', left: '4%', marginTop: 0}}>
-              <View style={{display: 'flex', flexDirection:'row', justifyContent: 'flex-start', alignItems: 'center', width: "120%", paddingLeft: 0, paddingRight: 80}}>
+            <ScrollView horizontal={true} style={{position: 'relative', left: windowWidth*0.04, marginTop: 0}}>
+              <View style={{display: 'flex', flexDirection:'row', justifyContent: 'flex-start', alignItems: 'center', width: "auto", paddingLeft: 0, paddingRight: '4%'}}>
                 <DataTable edit={false} DataTableBase={route.params.base} />
               </View>
             </ScrollView>
@@ -69,7 +81,7 @@ export default function DataBase({ route }) {
 
         </View>  
         <View style={{position: 'absolute', bottom: '2%', width: '86%'}}>
-          <BlueButton title="Erase"/>
+          <BlueButton title="Erase" link="DataBase"/>
         </View>  
       </View>   
     )
@@ -82,6 +94,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
+    overflow: 'hidden'
   },
   contact: {
     display: 'flex',

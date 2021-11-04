@@ -14,22 +14,12 @@ export default function DateEvents({ navigate }) {
     Poppins_500Medium, 
     Poppins_700Bold  }); 
 
-  let [nickname, setNickname] = useState("");
-  let [nicknameCheck, setNicknameCheck] = useState(false);
+  let [date, setDate] = useState("");
+  let [time, setTime] = useState("");
+  let [dutan, setDutan] = useState("");
+  let [name, changeName] = useState("");
   let [mobileNumber, setMobileNumber] = useState("+");
-  let [mobileNumberCheck, setMobileNumberCheck] = useState(false);
-
-  let [mail, changeMail] = useState("");
-  let [mailCheck, setMailCheck] = useState(false);
   
-  function registrationCheck(){
-    !nickname ? setNicknameCheck(true) : setNicknameCheck(false)
-    mobileNumber === '+' ? setMobileNumberCheck(true) : setMobileNumberCheck(false)
-    !validate(mail) ? setMailCheck(true) : setMailCheck(false)
-    !password ? setPassCheck(true) : setPassCheck(false)
-    password !== passwordRepeat ? setPassRepeatCheck(true) :!passwordRepeat? setPassRepeatCheck(true) : setPassRepeatCheck(false)
-  }
-
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -40,26 +30,26 @@ export default function DateEvents({ navigate }) {
             <Text style={styles.loginLogo}>Add booking</Text>
             <TextInput
               style={styles.input}
-              onChangeText={setNickname}
-              value={nickname}
+              onChangeText={setDate}
+              value={date}
               placeholder={'Date'}
             />
             <TextInput
               style={styles.input}
-              onChangeText={changeMail}
-              value={mail}
+              onChangeText={setTime}
+              value={time}
               placeholder={'Time'}
             />
             <TextInput
               style={styles.input}
-              onChangeText={setMobileNumber}
-              value={mail}
+              onChangeText={setDutan}
+              value={dutan}
               placeholder={'Dutan'}
             />              
             <TextInput
               style={styles.input}
-              onChangeText={setMobileNumber}
-              value={mail}
+              onChangeText={changeName}
+              value={name}
               placeholder={'Name'}
             />    
             <TextInput
@@ -69,8 +59,8 @@ export default function DateEvents({ navigate }) {
               placeholder={'Mobile Number'}
             />                            
           </View>
-          <View style={{position: 'absolute', width: '100%', bottom: '10%'}}>
-            <BlueButton link="Registration" title="Save" />
+          <View style={{position: 'relative', width: '100%', bottom: '19%', flex: 0}}>
+            <BlueButton link="Welcome" title="Save" />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -88,6 +78,7 @@ const styles = StyleSheet.create({
   },   
   inputContainer: {
     display: 'flex',
+    flex: 1,
     alignItems: 'center',
     width: '100%'
   },
