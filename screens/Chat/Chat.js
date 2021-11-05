@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import AppLoading from 'expo-app-loading';
-import { Animated, StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, SafeAreaView, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Animated, StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Dimensions, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold} from '@expo-google-fonts/poppins';
 
 import ArrowLeft from '../../assets/arrow-left.svg'
@@ -21,13 +21,13 @@ export default function Chat({ route, navigation }) {
      const keyboardDidShowListener = Keyboard.addListener(
        'keyboardDidShow',
        () => {
-          setKeyboardVisible(true); // or some other action
+          setKeyboardVisible(true);
        }
      );
      const keyboardDidHideListener = Keyboard.addListener(
        'keyboardDidHide',
        () => {
-         setKeyboardVisible(false); // or some other action
+         setKeyboardVisible(false);
        }
      );
  
@@ -78,7 +78,7 @@ export default function Chat({ route, navigation }) {
             </TouchableOpacity>    
           </View>
         </View>
-        <Animated.View style={[styles.container, {maxHeight: isKeyboardVisible ? '54%' : '67%'}]}>
+        <Animated.View style={[styles.container, {maxHeight: isKeyboardVisible ? Dimensions.get('window').height/100*38 : Dimensions.get('window').height/100*67}]}>
         <ScrollView ref={ref => setScrollArea(ref)}
           onContentSizeChange={() => scrollArea.scrollToEnd({ animated: true })}>
           {chatMessaged.map((item, index) => (
@@ -94,7 +94,7 @@ export default function Chat({ route, navigation }) {
           ))}
           </ScrollView>    
         </Animated.View>
-        <View style={styles.messageInput}>
+        <View style={[styles.messageInput, {bottom: isKeyboardVisible ? Dimensions.get('window').height/100*1 : Dimensions.get('window').height/100*4}]}>
           <TextInput
             style={styles.input}
             onChangeText={changeMessage}
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    backgroundColor: '#F5F5F5'
   },
   notification: {
     position: 'absolute', 
@@ -222,7 +223,6 @@ const styles = StyleSheet.create({
   messageInput: {
     position: 'absolute',
     width: '100%',
-    bottom: '4%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     margin: 12,
     padding: '4%',
     paddingLeft: '5%',
+    paddingRight: '20%',
     borderColor: '#E8E8E8',
     borderRadius: 100,
     borderWidth: 1,

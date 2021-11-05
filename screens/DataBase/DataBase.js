@@ -83,14 +83,14 @@ export default function DataBase() {
                   <Text style={[index===0 ? {marginTop: windowHeight*0.062} : {marginTop: windowHeight*0.01}, {fontFamily: 'Poppins_700Bold', fontSize: 20}]}>{item.title}</Text>
                   <View style={{width: '100%'}}>
                     <ScrollView horizontal={true} style={{width: "100%", marginTop: 0}}>
-                      <View onStartShouldSetResponder={() => true} style={{display: 'flex', flexDirection:'row', justifyContent: 'center', alignItems: 'center', width: "auto", paddingLeft: 40}}>
+                      <View onStartShouldSetResponder={openEditior ? () => false : () => true} style={{display: 'flex', flexDirection:'row', justifyContent: 'center', alignItems: 'center', width: "auto", paddingLeft: 40}}>
                         <DataTable edit={false} DataTableBase={item.base} />
                       </View>          
                     </ScrollView>
                   </View>       
                   <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: windowHeight*0.0014, width: '88%'}}> 
                       <View style={{width: '84%'}}>
-                        <BlueButton title="Download"/>
+                        <BlueButton title="Download" link="DataBase"/>
                       </View>
                     <TouchableOpacity onPress={() => toggleEditor(item.title, index)}>
                       <View style={[styles.contact, {padding: windowHeight*0.02}]}>
