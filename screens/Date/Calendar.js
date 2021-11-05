@@ -110,7 +110,7 @@ export default function DateEvents({ navigation }) {
             {
               [...Array(daysInMonth(lastMonth+1, today.getFullYear())).keys()].slice(-7+(1-(new Date(currentYear, currentMonth, 1).getDay()))).concat(
                 [...Array(daysInMonth(currentMonth+1, today.getFullYear())).keys()].concat(
-                  [...Array(daysInMonth(nextMonth+1, today.getFullYear())).keys()].slice(0, 14+7-(new Date(currentYear, currentMonth, daysInMonth(currentMonth+1, today.getFullYear())).getDay())  ))
+                  [...Array(daysInMonth(nextMonth+1, today.getFullYear())).keys()].slice(0, 14-(new Date(currentYear, currentMonth, daysInMonth(currentMonth+1, today.getFullYear())).getDay())  ))
               ).map((item, index) => {
               return(
                 <TouchableOpacity onPress={loadScene} key={index} style={[styles.cell, item+7+(-1+(new Date(currentYear, currentMonth, 1).getDay()))===index ?
