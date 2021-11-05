@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import AppLoading from 'expo-app-loading';
 import { Animated, StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Dimensions, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold} from '@expo-google-fonts/poppins';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import ArrowLeft from '../../assets/arrow-left.svg'
 import ArrowUp from '../../assets/arrow_up.svg'
 
@@ -94,17 +94,19 @@ export default function Chat({ route, navigation }) {
           ))}
           </ScrollView>    
         </Animated.View>
-        <View style={[styles.messageInput, {bottom: isKeyboardVisible ? Dimensions.get('window').height/100*1 : Dimensions.get('window').height/100*4}]}>
-          <TextInput
-            style={styles.input}
-            onChangeText={changeMessage}
-            value={message}
-            placeholder="Type here..."
-          />
-          <View style={styles.sendButton}>
-            <ArrowUp style={{width: 12, height: 18}} />
-          </View>      
-        </View>      
+        <KeyboardAwareScrollView style={[styles.chatInput, {bottom: isKeyboardVisible ? Dimensions.get('window').height/100*1 : Dimensions.get('window').height/100*4}]}>
+          <View style={styles.messageInput}>
+            <TextInput
+              style={styles.input}
+              onChangeText={changeMessage}
+              value={message}
+              placeholder="Type here..."
+            />
+            <View style={styles.sendButton}>
+              <ArrowUp style={{width: 12, height: 18}} />
+            </View>      
+          </View>
+        </KeyboardAwareScrollView>      
       </View>
     </TouchableWithoutFeedback>
     )
@@ -220,8 +222,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     borderTopColor: 'white',
   },
-  messageInput: {
+  chatInput: {
     position: 'absolute',
+  },
+  messageInput: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
